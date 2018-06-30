@@ -1,0 +1,15 @@
+filters:
+  filterList:
+    - channel: 1
+      key: number
+      type: number
+      priority: 3
+      value: 50
+    - channel: 1
+      key: number
+      type: number
+      priority: 3
+      from: 50
+      to: 100
+      intervalType: 3
+  spring: "assda"
