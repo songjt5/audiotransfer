@@ -1,14 +1,17 @@
-package com.cmos.audiotransfer.taskgroup.utils;
+package com.cmos.audiotransfer.common.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Type;
 import java.util.Map;
 
 public class JSONUtil {
+    public static Logger logger = LoggerFactory.getLogger(JSONUtil.class);
     private static Gson gson;
 
 
@@ -28,12 +31,13 @@ public class JSONUtil {
         return gson.fromJson(json, t);
     }
 
-    public static <T> T toMap(String json){
+    public static <T> T toMap(String json) {
         Type type = new TypeToken<Map<String, String>>() {
         }.getType();
         try {
             return gson.fromJson(json, type);
         } catch (JsonSyntaxException e) {
+            logger.error("task content parse error!", e);
             return null;
         }
     }

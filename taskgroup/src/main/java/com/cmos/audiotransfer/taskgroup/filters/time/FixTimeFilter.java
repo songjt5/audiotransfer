@@ -1,6 +1,6 @@
 package com.cmos.audiotransfer.taskgroup.filters.time;
 
-import com.cmos.audiotransfer.taskgroup.utils.DateUtil;
+import com.cmos.audiotransfer.common.utils.DateUtil;
 import com.cmos.audiotransfer.taskgroup.utils.TaskPriority;
 
 import java.util.Date;

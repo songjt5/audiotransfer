@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskgroup.filters;
 
 import com.cmos.audiotransfer.taskgroup.manager.TaskCacheManager;
-import com.cmos.audiotransfer.taskgroup.utils.ConfigKey;
+import com.cmos.audiotransfer.common.utils.ConfigKey;
 import com.cmos.audiotransfer.taskgroup.utils.TaskPriority;
 import org.springframework.util.CollectionUtils;
 

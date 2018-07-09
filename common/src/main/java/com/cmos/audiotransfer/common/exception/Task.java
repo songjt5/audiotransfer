@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.taskgroup.exception;
+package com.cmos.audiotransfer.common.exception;
 
 import com.google.gson.annotations.Expose;
 

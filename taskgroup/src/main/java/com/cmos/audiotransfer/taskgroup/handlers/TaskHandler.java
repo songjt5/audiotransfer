@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskgroup.handlers;
 
 import com.cmos.audiotransfer.taskgroup.filters.FilterManager;
-import com.cmos.audiotransfer.taskgroup.utils.ConfigKey;
+import com.cmos.audiotransfer.common.utils.ConfigKey;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

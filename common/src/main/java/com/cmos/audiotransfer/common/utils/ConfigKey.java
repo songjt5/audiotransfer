@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.taskgroup.utils;
+package com.cmos.audiotransfer.common.utils;
 
 public class ConfigKey {
     /*通用配置信息关键字*/
@@ -25,6 +25,7 @@ public class ConfigKey {
     public static final String TASK_TIME="task_time";
     public static final String TASK_STATUS_TOPIC="taskStatus";
     public static final String TASK_STATUS_GROUPED="grouped";
+
 
 
 

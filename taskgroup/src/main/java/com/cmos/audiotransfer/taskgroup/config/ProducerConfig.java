@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskgroup.config;
 
 import com.cmos.audiotransfer.taskgroup.handlers.StatusProducer;
-import com.cmos.audiotransfer.taskgroup.utils.ConfigKey;
+import com.cmos.audiotransfer.common.utils.ConfigKey;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.slf4j.Logger;

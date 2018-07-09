@@ -1,6 +1,6 @@
 package com.cmos.audiotransfer.taskgroup.manager;
 
-import com.cmos.audiotransfer.taskgroup.utils.ConfigKey;
+import com.cmos.audiotransfer.common.utils.ConfigKey;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
