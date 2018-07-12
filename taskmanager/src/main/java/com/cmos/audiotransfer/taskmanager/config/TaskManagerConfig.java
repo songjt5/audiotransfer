@@ -14,6 +14,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.FileSystemResource;
 
+import java.net.URISyntaxException;
+
 
 @Configuration public class TaskManagerConfig {
 
@@ -23,8 +25,12 @@ import org.springframework.core.io.FileSystemResource;
         PropertySourcesPlaceholderConfigurer configurer =
             new PropertySourcesPlaceholderConfigurer();
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
-        yaml.setResources(new FileSystemResource(
-            TaskManagerConfig.class.getResource("/").getPath() + "config/weights.yml"));
+        try {
+            yaml.setResources(new FileSystemResource(
+                TaskManagerConfig.class.getResource("/").toURI().getPath() + "config/weights.yml"));
+        } catch (URISyntaxException e) {
+            logger.error("URL is illegal", e);
+        }
         configurer.setProperties(yaml.getObject());
         return configurer;
     }

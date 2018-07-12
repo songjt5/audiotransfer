@@ -17,6 +17,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.FileSystemResource;
 
+import java.io.File;
+import java.net.URISyntaxException;
+
 @Configuration public class Config {
 
 
@@ -27,8 +30,12 @@ import org.springframework.core.io.FileSystemResource;
         PropertySourcesPlaceholderConfigurer configurer =
             new PropertySourcesPlaceholderConfigurer();
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
-        yaml.setResources(
-            new FileSystemResource(Config.class.getResource("/").getPath() + "config/filters.yml"));
+        try {
+            yaml.setResources(new FileSystemResource(
+                Config.class.getResource("/").toURI().getPath() + "config/filters.yml"));
+        } catch (URISyntaxException e) {
+            logger.error("URL is illegal", e);
+        }
         configurer.setProperties(yaml.getObject());
         return configurer;
     }
