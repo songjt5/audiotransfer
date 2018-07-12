@@ -28,7 +28,13 @@ public class JSONUtil {
 
 
     public static <T> T fromJson(String json, Class<T> t) {
-        return gson.fromJson(json, t);
+
+        try {
+            return gson.fromJson(json, t);
+        } catch (JsonSyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public static <T> T toMap(String json) {

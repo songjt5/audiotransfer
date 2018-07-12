@@ -15,6 +15,12 @@
         <module>resultmanager</module>
         <module>common</module>
     </modules>
+    <properties>
+        <!--add  maven release-->
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <encoding>UTF-8</encoding>
+    </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>

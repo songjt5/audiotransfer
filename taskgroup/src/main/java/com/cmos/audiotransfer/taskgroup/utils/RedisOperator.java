@@ -11,7 +11,6 @@ import org.springframework.stereotype.Component;
 
     public boolean putTask(String key, String taskMsg) {
         redisTemplate.opsForList().leftPush(key, taskMsg);
-        redisTemplate.opsForList().leftPop("task_1_3");
         return true;
     }
 }

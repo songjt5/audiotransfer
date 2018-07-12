@@ -2,29 +2,32 @@ package com.cmos.audiotransfer.common.beans;
 
 import com.cmos.audiotransfer.common.utils.ConfigKey;
 import com.cmos.audiotransfer.common.utils.DateUtil;
+import com.google.gson.annotations.Expose;
 
 import java.util.Date;
 import java.util.Map;
 
+/*
+ * 转写任务实体*/
 public class TaskBean {
 
-    private String id;
+    @Expose private String id;
 
-    private String channelId;
+    @Expose private String channelId;
 
-    private Date date;
+    @Expose private Date date;
 
-    private String path;
+    @Expose private String path;
 
-    private String content;
+    @Expose private String content;
 
-    private String status;
+    @Expose private String status;
+    
+    @Expose private String detail;
 
-    private String detail;
+    @Expose private String xmlResult;
 
-    private String xmlResult;
-
-    private String jsonResult;
+    @Expose private String jsonResult;
 
     public TaskBean() {
 
