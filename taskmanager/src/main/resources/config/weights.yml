@@ -1,11 +1,11 @@
 weights:
   weightList:
-    - channel: 1_2
+    - channelId: 1
       weight: 5
       resourceType: 1
-    - channel: 1_3
+    - channelId: 1
       weight: 3
       resourceType: 1
-    - channel: 1_4
+    - channelId: 1
       weight: 8
       resourceType: 1
