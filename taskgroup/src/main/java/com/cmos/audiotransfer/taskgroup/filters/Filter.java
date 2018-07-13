@@ -1,6 +1,6 @@
 package com.cmos.audiotransfer.taskgroup.filters;
 
-import com.cmos.audiotransfer.taskgroup.util.TaskPriority;
+import com.cmos.audiotransfer.common.constant.TaskPriority;
 import org.springframework.util.StringUtils;
 
 import java.util.Map;

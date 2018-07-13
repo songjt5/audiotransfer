@@ -11,7 +11,7 @@ import com.cmos.audiotransfer.taskgroup.filters.string.PatternFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.DynamicTimeFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.FixTimeFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.TimeFilter;
-import com.cmos.audiotransfer.taskgroup.util.TaskPriority;
+import com.cmos.audiotransfer.common.constant.TaskPriority;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,9 +43,10 @@ import java.util.stream.Collectors;
         }).filter(p -> p != null).collect(Collectors.groupingBy(Filter::getChannel));
         filters.forEach((k, v) -> {
             v.stream().sorted((t0, t1) -> {
-                if (t0.getPriortyValue().getValue() > t1.getPriortyValue().getValue())
+                if (Integer.parseInt(t0.getPriortyValue().getValue()) > Integer
+                    .parseInt(t1.getPriortyValue().getValue()))
                     return -1;
-                if (t0.getPriortyValue().getValue() == t1.getPriortyValue().getValue()) {
+                if (t0.getPriortyValue().getValue().equals(t1.getPriortyValue().getValue())) {
                     return 0;
                 } else
                     return 1;
@@ -189,12 +190,6 @@ import java.util.stream.Collectors;
 
     private void setPriority(Filter filter, String priority) {
         switch (priority.trim()) {
-            case ("5"):
-                filter.setPriortyValue(TaskPriority.FIVE);
-                break;
-            case ("4"):
-                filter.setPriortyValue(TaskPriority.FOUR);
-                break;
             case ("3"):
                 filter.setPriortyValue(TaskPriority.THREE);
                 break;
@@ -204,6 +199,9 @@ import java.util.stream.Collectors;
             case ("1"):
                 filter.setPriortyValue(TaskPriority.ONE);
                 break;
+            case ("0"):
+                filter.setPriortyValue(TaskPriority.ZERO);
+                break;
             default:
                 filter.setPriortyValue(TaskPriority.DEFAULT);
                 break;
@@ -211,7 +209,7 @@ import java.util.stream.Collectors;
     }
 
     private boolean checkPriority(String str) {
-        if (Pattern.matches("^[0-5]$", str))
+        if (Pattern.matches("^[0-3]$", str))
             return true;
         else
             return false;

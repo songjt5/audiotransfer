@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskgroup.filters.string;
 
 import com.cmos.audiotransfer.taskgroup.filters.Filter;
-import com.cmos.audiotransfer.taskgroup.util.TaskPriority;
+import com.cmos.audiotransfer.common.constant.TaskPriority;
 
 import java.util.Set;
 

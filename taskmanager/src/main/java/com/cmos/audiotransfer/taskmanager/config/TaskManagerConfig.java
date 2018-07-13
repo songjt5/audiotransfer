@@ -2,7 +2,7 @@ package com.cmos.audiotransfer.taskmanager.config;
 
 import com.cmos.audiotransfer.taskmanager.handlers.ResourceConsumer;
 import com.cmos.audiotransfer.taskmanager.handlers.DispachStatusProducer;
-import com.cmos.audiotransfer.taskmanager.handlers.TaskLocate;
+import com.cmos.audiotransfer.taskmanager.handlers.TaskQueueManager;
 import com.cmos.audiotransfer.taskmanager.weights.WeightConfigs;
 import com.cmos.audiotransfer.taskmanager.weights.WeightManager;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -41,7 +41,7 @@ import java.net.URISyntaxException;
         return weightManager;
     }
 
-    @Bean public ResourceConsumer resourceConsumer(WeightManager weightManager, TaskLocate locator,
+    @Bean public ResourceConsumer resourceConsumer(WeightManager weightManager, TaskQueueManager locator,
         DispachStatusProducer dispachStatusProducer) {
         ResourceConsumer resourceConsumer =
             new ResourceConsumer(weightManager, locator, dispachStatusProducer);

@@ -23,7 +23,7 @@ public class ResourceConsumer {
 
     private WeightManager weightManager;
 
-    private TaskLocate locator;
+    private TaskQueueManager locator;
 
     private DispachStatusProducer sender;
 
@@ -31,7 +31,7 @@ public class ResourceConsumer {
 
     }
 
-    public ResourceConsumer(WeightManager weightManager, TaskLocate locator,
+    public ResourceConsumer(WeightManager weightManager, TaskQueueManager locator,
         DispachStatusProducer sender) {
         this.weightManager = weightManager;
         this.locator = locator;
@@ -51,11 +51,11 @@ public class ResourceConsumer {
                 logger.error("illegal resource string!", resourceStr);
             }
             String channel = weightManager.getChannel(resource.getTypeCode());
-            String taskStr = this.locator.getOrderedTask(channel);
+            String taskStr = this.locator.popOrderedTask(channel);
             if (taskStr == null) {
                 List<String> channels = weightManager.getReflectChannelList(resource.getTypeCode());
                 for (String channelId : channels) {
-                    taskStr = this.locator.getOrderedTask(channelId);
+                    taskStr = this.locator.popOrderedTask(channelId);
                     if (taskStr != null) {
                         break;
                     }
@@ -65,8 +65,12 @@ public class ResourceConsumer {
                 return ConsumeConcurrentlyStatus.RECONSUME_LATER;
             }
             TaskBean task = JSONUtil.fromJson(taskStr, TaskBean.class);
-            sender.dispach(task);
-            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            if(sender.dispach(task)){
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
+            }else{
+                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+            }
+
         });
         consumer.start();
         logger.info("Resource Consumer Started.");
