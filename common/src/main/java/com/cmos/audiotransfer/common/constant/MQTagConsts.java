@@ -9,6 +9,7 @@ package com.cmos.audiotransfer.common.constant;
 public class MQTagConsts {
     public static final String TAG_MESSAGE_GROUPED = "grouped";
     public static final String TAG_MESSAGE_GROUPFAILED = "groupFailed";
-    public static final String TAG_TASK_SENT = "sent";
+    public static final String TAG_TASK_DISPACHED = "dispached";
+    public static final String TAG_TASK_DISPACHFAILED = "dispachfailed";
 
 }

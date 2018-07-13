@@ -25,14 +25,14 @@ public class ResourceConsumer {
 
     private TaskLocate locator;
 
-    private SendMessageProducer sender;
+    private DispachStatusProducer sender;
 
     public ResourceConsumer() {
 
     }
 
     public ResourceConsumer(WeightManager weightManager, TaskLocate locator,
-        SendMessageProducer sender) {
+        DispachStatusProducer sender) {
         this.weightManager = weightManager;
         this.locator = locator;
         this.sender = sender;
@@ -45,27 +45,27 @@ public class ResourceConsumer {
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         //consumer.setConsumeTimestamp("20170422221800");
         consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {
-            String content = new String(msgs.get(0).getBody());
-            System.out.println("get Resource" + content);
-            ResourceBean resource = JSONUtil.fromJson(content, ResourceBean.class);
-            System.out.println(resource);
+            String resourceStr = new String(msgs.get(0).getBody());
+            ResourceBean resource = JSONUtil.fromJson(resourceStr, ResourceBean.class);
+            if (resource == null) {
+                logger.error("illegal resource string!", resourceStr);
+            }
             String channel = weightManager.getChannel(resource.getTypeCode());
             String taskStr = this.locator.getOrderedTask(channel);
             if (taskStr == null) {
                 List<String> channels = weightManager.getReflectChannelList(resource.getTypeCode());
                 for (String channelId : channels) {
                     taskStr = this.locator.getOrderedTask(channelId);
-                    if (taskStr != null)
+                    if (taskStr != null) {
                         break;
+                    }
                 }
-
             }
-            if (taskStr == null)
-                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-            System.out.println("gettask" + taskStr);
+            if (taskStr == null) {
+                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+            }
             TaskBean task = JSONUtil.fromJson(taskStr, TaskBean.class);
-            sender.sendTask(task, taskStr);
-            sender.sendStatus(task,taskStr);
+            sender.dispach(task);
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
         });
         consumer.start();

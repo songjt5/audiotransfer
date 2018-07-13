@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskmanager;
 
 import com.cmos.audiotransfer.common.constant.TopicConsts;
-import com.cmos.audiotransfer.taskmanager.handlers.SendMessageProducer;
+import com.cmos.audiotransfer.taskmanager.handlers.DispachStatusProducer;
 import org.apache.rocketmq.common.message.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * Description:
  */
 @RestController public class ResourceProducer {
-    @Autowired SendMessageProducer producer;
+    @Autowired DispachStatusProducer producer;
 
     @RequestMapping(value = "/hello", method = RequestMethod.GET)
     public String addMessage(@RequestParam(name = "msg") String msg) {

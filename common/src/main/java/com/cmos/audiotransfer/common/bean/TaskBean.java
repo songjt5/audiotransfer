@@ -23,7 +23,7 @@ public class TaskBean {
     /*分组完成时间(分组状态)*/
     @Expose private Date groupTime;
     /*分发完成时间(分组状态)*/
-    @Expose private Date sendTime;
+    @Expose private Date dispacheTime;
     /*转写开始时间(转写状态)*/
     @Expose private Date transferBeginTime;
     /*转写结束时间(转写状态)*/
@@ -104,12 +104,12 @@ public class TaskBean {
         this.groupTime = groupTime;
     }
 
-    public Date getSendTime() {
-        return sendTime;
+    public Date getDispacheTime() {
+        return dispacheTime;
     }
 
-    public void setSendTime(Date sendTime) {
-        this.sendTime = sendTime;
+    public void setDispacheTime(Date dispacheTime) {
+        this.dispacheTime = dispacheTime;
     }
 
     public Date getTransferBeginTime() {
