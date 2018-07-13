@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.common.beans;
+package com.cmos.audiotransfer.common.bean;
 
 import com.google.gson.annotations.Expose;
 

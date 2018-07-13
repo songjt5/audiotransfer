@@ -1,8 +1,8 @@
-package com.cmos.audiotransfer.taskgroup.utils;
+package com.cmos.audiotransfer.common.util.test;
 
-import com.cmos.audiotransfer.common.beans.ResourceBean;
+import com.cmos.audiotransfer.common.bean.ResourceBean;
 import com.cmos.audiotransfer.common.exception.Task;
-import com.cmos.audiotransfer.common.utils.JSONUtil;
+import com.cmos.audiotransfer.common.util.JSONUtil;
 import org.junit.Test;
 
 import java.util.Map;

@@ -1,7 +1,7 @@
-package com.cmos.audiotransfer.common.beans;
+package com.cmos.audiotransfer.common.bean;
 
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
-import com.cmos.audiotransfer.common.utils.DateUtil;
+import com.cmos.audiotransfer.common.util.DateUtil;
 import com.google.gson.annotations.Expose;
 
 import java.util.Date;
@@ -14,33 +14,33 @@ public class TaskBean {
     @Expose private String id;
     /*渠道号*/
     @Expose private String channelId;
-    /*能力编码*/
+    /*能力编码(分发状态)*/
     @Expose private String resourceCode;
     /*通话开始时间*/
     @Expose private Date beginTime;
     /*通话结束时间*/
     @Expose private Date endTime;
-    /*分组完成时间*/
+    /*分组完成时间(分组状态)*/
     @Expose private Date groupTime;
-    /*分发完成时间*/
+    /*分发完成时间(分组状态)*/
     @Expose private Date sendTime;
-    /*转写开始时间*/
+    /*转写开始时间(转写状态)*/
     @Expose private Date transferBeginTime;
-    /*转写结束时间*/
+    /*转写结束时间(转写状态)*/
     @Expose private Date transferEndTime;
-    //任务执行的失败次数
+    //任务执行的失败次数(所有)
     @Expose private Integer failCount;
     /*语音地址*/
     @Expose private String path;
-    /*原始任务*/
+    /*原始任务(分组状态)*/
     @Expose private String content;
-    /*任务状态*/
+    /*任务状态(所有)*/
     @Expose private String status;
-    /*错误详情*/
+    /*错误详情(所有)*/
     @Expose private String detail;
-    /*xml转写结果地址*/
+    /*xml转写结果地址(转写状态)*/
     @Expose private String xmlResult;
-    /*json转写结果地址*/
+    /*json转写结果地址(转写状态)*/
     @Expose private String jsonResult;
 
     public TaskBean() {
@@ -195,7 +195,10 @@ public class TaskBean {
         task.endTime = DateUtil.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_END_ORIGIN));
 
         task.setPath(taskInfo.get(ConfigConsts.TASK_RADIO_PATH_ORIGIN));
-
         return task;
+    }
+
+    public void failCountInc() {
+        this.failCount = this.failCount.intValue() + 1;
     }
 }

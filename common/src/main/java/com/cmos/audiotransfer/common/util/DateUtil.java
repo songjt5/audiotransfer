@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.common.utils;
+package com.cmos.audiotransfer.common.util;
 
 import java.text.DateFormat;
 import java.text.ParseException;

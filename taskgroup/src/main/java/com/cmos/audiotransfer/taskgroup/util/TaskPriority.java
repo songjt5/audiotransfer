@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.taskgroup.utils;
+package com.cmos.audiotransfer.taskgroup.util;
 
 public enum TaskPriority {
     FIVE(5), FOUR(4), THREE(3), TWO(2), ONE(1), DEFAULT(0);

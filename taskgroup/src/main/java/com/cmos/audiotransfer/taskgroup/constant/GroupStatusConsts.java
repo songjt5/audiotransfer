@@ -7,7 +7,6 @@ public class GroupStatusConsts {
     public static final String TASK_STATUS_GROUPFAILED = "101";
     public static final String TASK_STATUS_MSGPARSEERROR = "10101";//消息解析失败
     public static final String TASK_STATUS_MISSKEY = "10102"; //缺少关键字段
-    public static final String TASK_STATUS_ = "10102";
     public static final String TASK_STATUS_REDISCONECTFAILED = "10103";
 
 }

@@ -1,9 +1,9 @@
 package com.cmos.audiotransfer.taskmanager.handlers;
 
-import com.cmos.audiotransfer.common.beans.ResourceBean;
-import com.cmos.audiotransfer.common.beans.TaskBean;
+import com.cmos.audiotransfer.common.bean.ResourceBean;
+import com.cmos.audiotransfer.common.bean.TaskBean;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
-import com.cmos.audiotransfer.common.utils.JSONUtil;
+import com.cmos.audiotransfer.common.util.JSONUtil;
 import com.cmos.audiotransfer.taskmanager.weights.WeightManager;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.MQConsumer;

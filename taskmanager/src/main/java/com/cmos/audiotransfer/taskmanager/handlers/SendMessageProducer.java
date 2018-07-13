@@ -1,6 +1,6 @@
 package com.cmos.audiotransfer.taskmanager.handlers;
 
-import com.cmos.audiotransfer.common.beans.TaskBean;
+import com.cmos.audiotransfer.common.bean.TaskBean;
 import com.cmos.audiotransfer.common.constant.MQTagConsts;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
 import org.apache.rocketmq.client.exception.MQBrokerException;

@@ -4,10 +4,10 @@ import com.cmos.audiotransfer.taskgroup.TaskConsumer;
 import com.cmos.audiotransfer.taskgroup.filters.FilterConfigs;
 import com.cmos.audiotransfer.taskgroup.filters.FilterFactory;
 import com.cmos.audiotransfer.taskgroup.filters.FilterManager;
-import com.cmos.audiotransfer.taskgroup.handlers.StatusProducer;
-import com.cmos.audiotransfer.taskgroup.handlers.TaskHandler;
+import com.cmos.audiotransfer.taskgroup.handler.StatusProducer;
+import com.cmos.audiotransfer.taskgroup.handler.TaskHandler;
 import com.cmos.audiotransfer.taskgroup.manager.TaskCacheManager;
-import com.cmos.audiotransfer.taskgroup.utils.RedisOperator;
+import com.cmos.audiotransfer.taskgroup.util.RedisOperator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.core.io.FileSystemResource;
 
-import java.io.File;
 import java.net.URISyntaxException;
 
 @Configuration public class Config {

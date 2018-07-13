@@ -1,6 +1,6 @@
 package com.cmos.audiotransfer.taskgroup.filters.number;
 
-import com.cmos.audiotransfer.taskgroup.utils.TaskPriority;
+import com.cmos.audiotransfer.taskgroup.util.TaskPriority;
 
 public class EqualFilter extends NumberFilter {
 

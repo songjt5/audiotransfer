@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskgroup.filters;
 
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
-import com.cmos.audiotransfer.common.utils.DateUtil;
+import com.cmos.audiotransfer.common.util.DateUtil;
 import com.cmos.audiotransfer.taskgroup.constant.FilterConfigConsts;
 import com.cmos.audiotransfer.taskgroup.filters.number.EqualFilter;
 import com.cmos.audiotransfer.taskgroup.filters.number.IntervalFilter;
@@ -11,7 +11,7 @@ import com.cmos.audiotransfer.taskgroup.filters.string.PatternFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.DynamicTimeFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.FixTimeFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.TimeFilter;
-import com.cmos.audiotransfer.taskgroup.utils.TaskPriority;
+import com.cmos.audiotransfer.taskgroup.util.TaskPriority;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

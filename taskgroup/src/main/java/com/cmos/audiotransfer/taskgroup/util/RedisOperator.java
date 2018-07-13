@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.taskgroup.utils;
+package com.cmos.audiotransfer.taskgroup.util;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;

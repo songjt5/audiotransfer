@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.taskgroup.handlers;
+package com.cmos.audiotransfer.taskgroup.handler;
 
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
 import com.cmos.audiotransfer.taskgroup.filters.FilterManager;

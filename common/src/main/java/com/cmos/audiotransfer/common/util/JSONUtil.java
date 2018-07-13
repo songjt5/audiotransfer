@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.common.utils;
+package com.cmos.audiotransfer.common.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
