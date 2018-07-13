@@ -7,4 +7,6 @@ package com.cmos.audiotransfer.taskgroup.constant;
  * Description:
  */
 public class GroupConfigConsts {
+
+
 }

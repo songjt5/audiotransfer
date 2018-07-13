@@ -1,7 +1,5 @@
 package com.cmos.audiotransfer.taskgroup.exception;
 
-import com.cmos.audiotransfer.common.utils.ConfigKey;
-
 public class NeedNecessaryInfoException extends RuntimeException {
 
     private String key;

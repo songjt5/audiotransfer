@@ -1,7 +1,8 @@
 package com.cmos.audiotransfer.taskmanager.handlers;
 
 import com.cmos.audiotransfer.common.beans.TaskBean;
-import com.cmos.audiotransfer.common.utils.ConfigKey;
+import com.cmos.audiotransfer.common.constant.MQTagConsts;
+import com.cmos.audiotransfer.common.constant.TopicConsts;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.MQProducer;
@@ -11,8 +12,6 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Map;
 
 public class SendMessageProducer {
 
@@ -30,7 +29,7 @@ public class SendMessageProducer {
 
     public boolean sendStatus(TaskBean task, String content) {
 
-        Message msg = new Message(ConfigKey.TASK_STATUS_TOPIC, ConfigKey.TASK_STATUS_SENT,
+        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, MQTagConsts.TAG_TASK_SENT,
             new StringBuilder(task.getChannelId()).append(task.getId()).toString(),
             content.getBytes());
         return send(msg);
@@ -55,7 +54,7 @@ public class SendMessageProducer {
 
     public boolean sendTask(TaskBean task, String content) {
 
-        Message msg = new Message(ConfigKey.TOPIC_TASK_SENT, ConfigKey.TASK_STATUS_SENT,
+        Message msg = new Message(TopicConsts.TOPIC_TASK_SENT, MQTagConsts.TAG_TASK_SENT,
             new StringBuilder(task.getChannelId()).append(task.getId()).toString(),
             content.getBytes());
         return send(msg);

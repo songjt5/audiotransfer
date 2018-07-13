@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskgroup.filters;
 
+import com.cmos.audiotransfer.common.constant.ConfigConsts;
 import com.cmos.audiotransfer.taskgroup.manager.TaskCacheManager;
-import com.cmos.audiotransfer.common.utils.ConfigKey;
 import com.cmos.audiotransfer.taskgroup.utils.TaskPriority;
 import org.springframework.util.CollectionUtils;
 
@@ -25,7 +25,7 @@ public class FilterManager {
 
     public String getRedisKey(Map<String, String> taskInfo) {
 
-        String channelId = taskInfo.get(ConfigKey.CHANNEL_ID).trim();
+        String channelId = taskInfo.get(ConfigConsts.TASK_CHANNELID).trim();
 
         List<Filter> channelFilters = getFiltersByChannel(channelId);
         if (CollectionUtils.isEmpty(channelFilters)) {

@@ -2,10 +2,11 @@ package com.cmos.audiotransfer.taskgroup;
 
 
 import com.cmos.audiotransfer.common.beans.TaskBean;
+import com.cmos.audiotransfer.common.constant.ConfigConsts;
+import com.cmos.audiotransfer.common.utils.DateUtil;
 import com.cmos.audiotransfer.taskgroup.constant.GroupStatusConsts;
 import com.cmos.audiotransfer.taskgroup.filters.FilterManager;
 import com.cmos.audiotransfer.taskgroup.handlers.StatusProducer;
-import com.cmos.audiotransfer.common.utils.ConfigKey;
 import com.cmos.audiotransfer.common.utils.JSONUtil;
 import com.cmos.audiotransfer.taskgroup.utils.RedisOperator;
 import org.apache.commons.lang3.StringUtils;
@@ -40,30 +41,42 @@ public class TaskConsumer {
             task.setDetail("message parse failed:" + content);
             logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, content);
         } else {
-            task = new TaskBean(taskInfo);
-            if (StringUtils.isEmpty(taskInfo.get(ConfigKey.CHANNEL_ID))) {
+            taskInfo
+                .put(ConfigConsts.TASK_CHANNELID, taskInfo.get(ConfigConsts.TASK_CHANNELID_ORIGIN));
+            taskInfo.put(ConfigConsts.TASK_ID, taskInfo.get(ConfigConsts.TASK_ID_ORIGIN));
+            taskInfo.put(ConfigConsts.TASK_RADIO_PATH,
+                taskInfo.get(ConfigConsts.TASK_RADIO_PATH_ORIGIN));
+            taskInfo.put(ConfigConsts.TASK_TIME_BEGIN,
+                taskInfo.get(ConfigConsts.TASK_TIME_BEGIN_ORIGIN));
+            taskInfo
+                .put(ConfigConsts.TASK_TIME_END, taskInfo.get(ConfigConsts.TASK_TIME_END_ORIGIN));
+            task = TaskBean.createTaskBean(taskInfo);
+            if (StringUtils.isEmpty(task.getChannelId())) {
                 task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);
                 task.setDetail("channel id is null!");
                 logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
-            }
-            if (StringUtils.isEmpty(taskInfo.get(ConfigKey.TASK_ID))) {
+            } else if (StringUtils.isEmpty(task.getId())) {
                 task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);
                 task.setDetail("task id is null!");
                 logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
-            }
-            if (StringUtils.isEmpty(taskInfo.get(ConfigKey.TASK_RADIO_PATH))) {
+            } else if (StringUtils.isEmpty(task.getPath())) {
                 task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);
                 task.setDetail("path is null!");
                 logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
-            }
-            if (StringUtils.isEmpty(taskInfo.get(ConfigKey.TASK_TIME))) {
+            } else if (task.getBeginTime() == null) {
                 task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);
-                task.setDetail("time is null!");
+                task.setDetail("begin time is null!");
+                logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
+            } else if (task.getEndTime() == null) {
+
+                task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);
+                task.setDetail("end time is null!");
                 logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
             }
             try {
+
                 String redisListKey = filterManager.getRedisKey(taskInfo);
-                redisOperator.putTask(redisListKey, content);
+                redisOperator.putTask(redisListKey, JSONUtil.toJSON(task));
                 task.setStatus(GroupStatusConsts.TASK_STATUS_GROUPED);
 
             } catch (Exception e) {

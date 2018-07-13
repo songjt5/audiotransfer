@@ -2,21 +2,18 @@ package com.cmos.audiotransfer.taskmanager.handlers;
 
 import com.cmos.audiotransfer.common.beans.ResourceBean;
 import com.cmos.audiotransfer.common.beans.TaskBean;
-import com.cmos.audiotransfer.common.utils.ConfigKey;
+import com.cmos.audiotransfer.common.constant.TopicConsts;
 import com.cmos.audiotransfer.common.utils.JSONUtil;
 import com.cmos.audiotransfer.taskmanager.weights.WeightManager;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.MQConsumer;
-import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
-import org.apache.rocketmq.common.message.MessageExt;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.annotation.Resource;
 import java.util.List;
 
 public class ResourceConsumer {
@@ -43,8 +40,8 @@ public class ResourceConsumer {
 
     public ResourceConsumer init() throws MQClientException {
         DefaultMQPushConsumer consumer =
-            new DefaultMQPushConsumer(ConfigKey.CONSUMER_GROUP_RESOURCE);
-        consumer.subscribe(ConfigKey.RESOURCE_TOPIC, "*");
+            new DefaultMQPushConsumer(TopicConsts.TOPIC_TRANSFER_RESOURCE);
+        consumer.subscribe(TopicConsts.TOPIC_TRANSFER_RESOURCE, "*");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         //consumer.setConsumeTimestamp("20170422221800");
         consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {

@@ -1,6 +1,6 @@
 package com.cmos.audiotransfer.taskgroup.manager;
 
-import com.cmos.audiotransfer.common.utils.ConfigKey;
+import com.cmos.audiotransfer.common.constant.ConfigConsts;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.Map;
             return defaultKeys.get(channelId);
         } else
             return defaultKeys.put(channelId,
-                new StringBuilder(ConfigKey.REDIS_QUEUE_PREFIX).append(channelId).toString());
+                new StringBuilder(ConfigConsts.TASK_QUEUE_KEY_PREFIX).append(channelId).toString());
     }
 
 

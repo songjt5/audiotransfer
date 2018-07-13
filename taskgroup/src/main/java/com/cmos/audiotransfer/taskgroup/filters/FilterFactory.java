@@ -1,5 +1,8 @@
 package com.cmos.audiotransfer.taskgroup.filters;
 
+import com.cmos.audiotransfer.common.constant.ConfigConsts;
+import com.cmos.audiotransfer.common.utils.DateUtil;
+import com.cmos.audiotransfer.taskgroup.constant.FilterConfigConsts;
 import com.cmos.audiotransfer.taskgroup.filters.number.EqualFilter;
 import com.cmos.audiotransfer.taskgroup.filters.number.IntervalFilter;
 import com.cmos.audiotransfer.taskgroup.filters.number.NumberFilter;
@@ -8,8 +11,6 @@ import com.cmos.audiotransfer.taskgroup.filters.string.PatternFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.DynamicTimeFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.FixTimeFilter;
 import com.cmos.audiotransfer.taskgroup.filters.time.TimeFilter;
-import com.cmos.audiotransfer.common.utils.ConfigKey;
-import com.cmos.audiotransfer.common.utils.DateUtil;
 import com.cmos.audiotransfer.taskgroup.utils.TaskPriority;
 import org.apache.commons.collections4.CollectionUtils;
 import org.slf4j.Logger;
@@ -24,17 +25,18 @@ import java.util.stream.Collectors;
 @Component public class FilterFactory {
 
     private Logger logger = LoggerFactory.getLogger(FilterFactory.class);
+
     public Map<String, List<Filter>> getFilters(FilterFactory filterFactory,
         FilterConfigs filterConfig) {
 
         Map<String, List<Filter>> filters = filterConfig.getFilterList().stream().map(p -> {
-            String type = p.get(ConfigKey.FILTER_TYPE);
+            String type = p.get(FilterConfigConsts.FILTER_TYPE);
             type = type.trim();
-            if (ConfigKey.FILTER_TYPE_STRING.equalsIgnoreCase(type)) {
+            if (FilterConfigConsts.FILTER_TYPE_STRING.equalsIgnoreCase(type)) {
                 return filterFactory.createStringFilter(p);
-            } else if (ConfigKey.FILTER_TYPE_TIME.equalsIgnoreCase(type)) {
+            } else if (FilterConfigConsts.FILTER_TYPE_TIME.equalsIgnoreCase(type)) {
                 return filterFactory.createTimeFilter(p);
-            } else if (ConfigKey.FILTER_TYPE_NUMBER.equalsIgnoreCase(type)) {
+            } else if (FilterConfigConsts.FILTER_TYPE_NUMBER.equalsIgnoreCase(type)) {
                 return filterFactory.createNumberFilter(p);
             } else
                 return null;
@@ -55,13 +57,13 @@ import java.util.stream.Collectors;
 
     public Filter createStringFilter(Map<String, String> filterInfo) {
         Filter filter;
-        String value = filterInfo.get(ConfigKey.FILTER_VALUE);
+        String value = filterInfo.get(FilterConfigConsts.FILTER_VALUE);
         if (!StringUtils.isEmpty(value)) {
             Set<String> values = new HashSet<>();
             CollectionUtils.addAll(values, value.split(","));
             filter = new ContainFilter(values);
         } else {
-            String patternStr = filterInfo.get(ConfigKey.PATTERN);
+            String patternStr = filterInfo.get(FilterConfigConsts.FILTER_STRING_PATTERN);
             if (StringUtils.isEmpty(patternStr)) {
                 // TODO
                 return null;
@@ -83,7 +85,7 @@ import java.util.stream.Collectors;
 
     public Filter createTimeFilter(Map<String, String> filterInfo) {
 
-        String dynamicStr = filterInfo.get(ConfigKey.FILTER_DYNAMIC_FLAG);
+        String dynamicStr = filterInfo.get(FilterConfigConsts.FILTER_TIME_DYNAMICFLAG);
         if (StringUtils.isEmpty(dynamicStr))
             return null;
         TimeFilter filter = null;
@@ -94,14 +96,14 @@ import java.util.stream.Collectors;
             filter = new DynamicTimeFilter();
             boolean flag = false;
             try {
-                fromTime = parseTimeStr(filterInfo.get(ConfigKey.FROMTIME));
+                fromTime = parseTimeStr(filterInfo.get(FilterConfigConsts.FILTER_TIME_FROM));
                 flag = true;
             } catch (NumberFormatException e) {
                 //todo
                 e.printStackTrace();
             }
             try {
-                toTime = parseTimeStr(filterInfo.get(ConfigKey.FROMTIME));
+                toTime = parseTimeStr(filterInfo.get(FilterConfigConsts.FILTER_TIME_FROM));
             } catch (NumberFormatException e) {
                 if (flag = false) {
                     //todo
@@ -118,8 +120,8 @@ import java.util.stream.Collectors;
         } else {
             filter = new FixTimeFilter();
             boolean flag = false;
-            fromTime = parseDateStr(filterInfo.get(ConfigKey.FROMTIME));
-            toTime = parseDateStr(filterInfo.get(ConfigKey.TOTIME));
+            fromTime = parseDateStr(filterInfo.get(FilterConfigConsts.FILTER_TIME_FROM));
+            toTime = parseDateStr(filterInfo.get(FilterConfigConsts.FILTER_TIME_TO));
             if (fromTime == null && toTime == null) {
                 //todo
                 return null;
@@ -137,11 +139,11 @@ import java.util.stream.Collectors;
 
 
     public Filter createNumberFilter(Map<String, String> filterInfo) {
-        String intervalType = filterInfo.get(ConfigKey.FILTER_NUMBER_INTERVALTYPE);
+        String intervalType = filterInfo.get(FilterConfigConsts.FILTER_NUMBER_INTERVALTYPE);
         NumberFilter filter = null;
         if (checkIntervalType(intervalType)) {
-            Double from = Double.parseDouble(filterInfo.get(ConfigKey.FROMNUM));
-            Double to = Double.parseDouble(filterInfo.get(ConfigKey.TONUM));
+            Double from = Double.parseDouble(filterInfo.get(FilterConfigConsts.FILTER_NUMBER_FROM));
+            Double to = Double.parseDouble(filterInfo.get(FilterConfigConsts.FILTER_NUMBER_TO));
             if (isValidNum(from, to)) {
                 IntervalFilter intervalFilter = new IntervalFilter();
                 intervalFilter.setIntervalType(Integer.parseInt(intervalType));
@@ -152,7 +154,7 @@ import java.util.stream.Collectors;
                 return null;
         } else {
             try {
-                Double value = Double.parseDouble(filterInfo.get(ConfigKey.FILTER_VALUE));
+                Double value = Double.parseDouble(filterInfo.get(FilterConfigConsts.FILTER_VALUE));
                 EqualFilter equalFilter = new EqualFilter();
                 equalFilter.setValue(value);
                 filter = equalFilter;
@@ -170,15 +172,15 @@ import java.util.stream.Collectors;
 
     private boolean initFilter(Filter filter, Map<String, String> filterInfo) {
 
-        String channel = filterInfo.get(ConfigKey.CHANNEL_ID);
+        String channel = filterInfo.get(ConfigConsts.TASK_CHANNELID);
         if (StringUtils.isEmpty(channel))
             return false;
         filter.setChannel(channel);
-        String key = filterInfo.get(ConfigKey.FILTER_KEY);
+        String key = filterInfo.get(FilterConfigConsts.FILTER_KEY);
         if (StringUtils.isEmpty(key))
             return false;
         filter.setKey(key);
-        String priority = filterInfo.get(ConfigKey.TASK_PRIORITY_VALUE);
+        String priority = filterInfo.get(FilterConfigConsts.FILTER_TASK_PRIORITY_VALUE);
         if (StringUtils.isEmpty(priority) || !checkPriority(priority.trim()))
             return false;
         setPriority(filter, priority);

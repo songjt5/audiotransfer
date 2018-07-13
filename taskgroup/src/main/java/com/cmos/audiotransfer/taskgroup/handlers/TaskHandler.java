@@ -1,7 +1,8 @@
 package com.cmos.audiotransfer.taskgroup.handlers;
 
+import com.cmos.audiotransfer.common.constant.ConfigConsts;
 import com.cmos.audiotransfer.taskgroup.filters.FilterManager;
-import com.cmos.audiotransfer.common.utils.ConfigKey;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,8 +21,11 @@ public class TaskHandler {
 
     public TaskHandler checkInfo(Map<String, String> msg) {
 
-        if (msg.get(ConfigKey.CHANNEL_ID).isEmpty() || msg.get(ConfigKey.TASK_ID).isEmpty() || msg
-            .get(ConfigKey.TASK_RADIO_PATH).isEmpty() || msg.get(ConfigKey.TASK_TIME).isEmpty()) {
+        if (StringUtils.isEmpty(msg.get(ConfigConsts.TASK_CHANNELID_ORIGIN)) || StringUtils
+            .isEmpty(msg.get(ConfigConsts.TASK_ID_ORIGIN)) || StringUtils
+            .isEmpty(msg.get(ConfigConsts.TASK_RADIO_PATH_ORIGIN)) || StringUtils
+            .isEmpty(msg.get(ConfigConsts.TASK_TIME_BEGIN_ORIGIN)) || StringUtils
+            .isEmpty(msg.get(ConfigConsts.TASK_TIME_END_ORIGIN))) {
             logger.error("necessary column is null!");
         }
 

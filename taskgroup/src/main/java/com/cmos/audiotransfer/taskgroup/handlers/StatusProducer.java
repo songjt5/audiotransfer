@@ -1,7 +1,9 @@
 package com.cmos.audiotransfer.taskgroup.handlers;
 
 
-import com.cmos.audiotransfer.common.utils.ConfigKey;
+import com.cmos.audiotransfer.common.constant.ConfigConsts;
+import com.cmos.audiotransfer.common.constant.MQTagConsts;
+import com.cmos.audiotransfer.common.constant.TopicConsts;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.MQProducer;
@@ -30,9 +32,9 @@ public class StatusProducer {
 
     public boolean send(Map<String, String> taskInfo, String content) {
 
-        Message msg = new Message(ConfigKey.TASK_STATUS_TOPIC, ConfigKey.TASK_STATUS_GROUPED,
-            new StringBuilder(taskInfo.get(ConfigKey.CHANNEL_ID))
-                .append(taskInfo.get(ConfigKey.TASK_ID)).toString(), content.getBytes());
+        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, MQTagConsts.TAG_MESSAGE_GROUPED,
+            new StringBuilder(taskInfo.get(ConfigConsts.TASK_CHANNELID))
+                .append(taskInfo.get(ConfigConsts.TASK_ID)).toString(), content.getBytes());
         SendResult sendResult = null;
         try {
             sendResult = producer.send(msg);
