@@ -1,0 +1,6 @@
+degradeFilters:
+  filterList:
+    - channelId: 1
+      timeUnit: day
+    - channelId: 2
+      timeUnit: day

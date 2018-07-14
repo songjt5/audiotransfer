@@ -3,6 +3,7 @@ package com.cmos.audiotransfer.taskmanager.weights;
 import com.cmos.audiotransfer.taskmanager.beans.ChannelWeightBean;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class WeightManager {
@@ -19,7 +20,7 @@ public class WeightManager {
         weightBeans.stream().collect(Collectors.groupingBy(ChannelWeightBean::getResourceCode))
             .forEach((k, v) -> {
                 int i = 0;
-                totalWeights.put(k, v.stream().mapToInt(p -> p.getWeight()).sum());
+                totalWeights.put(k, v.stream().mapToInt(ChannelWeightBean::getWeight).sum());
                 TreeMap<Integer, String> weightTree = new TreeMap<>();
                 v.sort((b1, b2) -> {
                     if (b1.getWeight() > b2.getWeight())
@@ -33,7 +34,8 @@ public class WeightManager {
                     weightTree.put(i, weightBean.getChannelId());
                 }
 
-                channels.put(k, v.stream().map(p -> p.getChannelId()).collect(Collectors.toList()));
+                channels.put(k,
+                    v.stream().map(ChannelWeightBean::getChannelId).collect(Collectors.toList()));
                 weightTrees.put(k, weightTree);
             });
 
@@ -45,11 +47,11 @@ public class WeightManager {
     }
 
 
-    public String getChannel(String resouceCode) {
-        if (totalWeights.containsKey(resouceCode)) {
-            int total = totalWeights.get(resouceCode);
+    public String getChannel(String resourceCode) {
+        if (totalWeights.containsKey(resourceCode)) {
+            int total = totalWeights.get(resourceCode);
             SortedMap<Integer, String> randomTree =
-                weightTrees.get(resouceCode).tailMap((int) (Math.random() * total));
+                weightTrees.get(resourceCode).tailMap(ThreadLocalRandom.current().nextInt(total));
             return randomTree.get(randomTree.firstKey());
         } else {
             return null;

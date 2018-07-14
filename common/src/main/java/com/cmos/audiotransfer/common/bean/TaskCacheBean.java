@@ -8,7 +8,28 @@ package com.cmos.audiotransfer.common.bean;
  */
 public class TaskCacheBean {
 
-    String content;
+    String taskStr;
 
     String redisQueueKey;
+
+    public TaskCacheBean(String taskStr, String redisQueueKey) {
+        this.taskStr = taskStr;
+        this.redisQueueKey = redisQueueKey;
+    }
+
+    public String getTaskStr() {
+        return taskStr;
+    }
+
+    public void setTaskStr(String taskStr) {
+        this.taskStr = taskStr;
+    }
+
+    public String getRedisQueueKey() {
+        return redisQueueKey;
+    }
+
+    public void setRedisQueueKey(String redisQueueKey) {
+        this.redisQueueKey = redisQueueKey;
+    }
 }

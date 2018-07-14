@@ -3,6 +3,8 @@ package com.cmos.audiotransfer.taskmanager.config;
 import com.cmos.audiotransfer.taskmanager.handlers.ResourceConsumer;
 import com.cmos.audiotransfer.taskmanager.handlers.DispachStatusProducer;
 import com.cmos.audiotransfer.taskmanager.handlers.TaskQueueManager;
+import com.cmos.audiotransfer.taskmanager.handlers.degrade.DegradeFilterConfig;
+import com.cmos.audiotransfer.taskmanager.handlers.degrade.TaskDegradeManager;
 import com.cmos.audiotransfer.taskmanager.weights.WeightConfigs;
 import com.cmos.audiotransfer.taskmanager.weights.WeightManager;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -27,7 +29,9 @@ import java.net.URISyntaxException;
         YamlPropertiesFactoryBean yaml = new YamlPropertiesFactoryBean();
         try {
             yaml.setResources(new FileSystemResource(
-                TaskManagerConfig.class.getResource("/").toURI().getPath() + "config/weights.yml"));
+                    TaskManagerConfig.class.getResource("/").toURI().getPath() + "config/weights.yml"),
+                new FileSystemResource(TaskManagerConfig.class.getResource("/").toURI().getPath()
+                    + "config/degradeFilters.yml"));
         } catch (URISyntaxException e) {
             logger.error("URL is illegal", e);
         }
@@ -41,10 +45,11 @@ import java.net.URISyntaxException;
         return weightManager;
     }
 
-    @Bean public ResourceConsumer resourceConsumer(WeightManager weightManager, TaskQueueManager locator,
-        DispachStatusProducer dispachStatusProducer) {
+    @Bean
+    public ResourceConsumer resourceConsumer(WeightManager weightManager, TaskQueueManager locator,
+        DispachStatusProducer dispachStatusProducer, TaskDegradeManager taskDegradeManager) {
         ResourceConsumer resourceConsumer =
-            new ResourceConsumer(weightManager, locator, dispachStatusProducer);
+            new ResourceConsumer(weightManager, locator, dispachStatusProducer, taskDegradeManager);
         try {
             resourceConsumer.init();
         } catch (MQClientException e) {
@@ -53,4 +58,11 @@ import java.net.URISyntaxException;
         }
         return resourceConsumer;
     }
+
+    @Bean TaskDegradeManager taskDegradeManager(DegradeFilterConfig degradeFilterConfig) {
+        TaskDegradeManager taskDegradeManager = new TaskDegradeManager();
+        taskDegradeManager.init(degradeFilterConfig);
+        return taskDegradeManager;
+    }
+
 }

@@ -2,8 +2,12 @@ package com.cmos.audiotransfer.taskmanager.handlers;
 
 import com.cmos.audiotransfer.common.bean.ResourceBean;
 import com.cmos.audiotransfer.common.bean.TaskBean;
+import com.cmos.audiotransfer.common.bean.TaskCacheBean;
+import com.cmos.audiotransfer.common.constant.ConfigConsts;
+import com.cmos.audiotransfer.common.constant.TaskPriority;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
 import com.cmos.audiotransfer.common.util.JSONUtil;
+import com.cmos.audiotransfer.taskmanager.handlers.degrade.TaskDegradeManager;
 import com.cmos.audiotransfer.taskmanager.weights.WeightManager;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.MQConsumer;
@@ -23,19 +27,22 @@ public class ResourceConsumer {
 
     private WeightManager weightManager;
 
-    private TaskQueueManager locator;
+    private TaskQueueManager taskQueueManager;
 
     private DispachStatusProducer sender;
+
+    private TaskDegradeManager degradeManager;
 
     public ResourceConsumer() {
 
     }
 
-    public ResourceConsumer(WeightManager weightManager, TaskQueueManager locator,
-        DispachStatusProducer sender) {
+    public ResourceConsumer(WeightManager weightManager, TaskQueueManager taskQueueManager,
+        DispachStatusProducer sender, TaskDegradeManager degradeManager) {
         this.weightManager = weightManager;
-        this.locator = locator;
+        this.taskQueueManager = taskQueueManager;
         this.sender = sender;
+        this.degradeManager = degradeManager;
     }
 
     public ResourceConsumer init() throws MQClientException {
@@ -50,24 +57,25 @@ public class ResourceConsumer {
             if (resource == null) {
                 logger.error("illegal resource string!", resourceStr);
             }
-            String channel = weightManager.getChannel(resource.getTypeCode());
-            String taskStr = this.locator.popOrderedTask(channel);
-            if (taskStr == null) {
-                List<String> channels = weightManager.getReflectChannelList(resource.getTypeCode());
-                for (String channelId : channels) {
-                    taskStr = this.locator.popOrderedTask(channelId);
-                    if (taskStr != null) {
-                        break;
-                    }
-                }
-            }
-            if (taskStr == null) {
+            TaskCacheBean taskCacheObj = getTaskCacheBean(resource);
+            if (taskCacheObj == null) {
                 return ConsumeConcurrentlyStatus.RECONSUME_LATER;
             }
-            TaskBean task = JSONUtil.fromJson(taskStr, TaskBean.class);
-            if(sender.dispach(task)){
+            TaskBean task = JSONUtil.fromJson(taskCacheObj.getTaskStr(), TaskBean.class);
+                /*if (degradeManager.checkDegrade(task)) {
+                    taskCacheObj.setRedisQueueKey(
+                        new StringBuilder(ConfigConsts.TASK_QUEUE_KEY_PREFIX)
+                            .append(task.getChannelId()).append("_")
+                            .append(TaskPriority.ZERO.getValue()).toString());
+                    taskQueueManager.pushBack(taskCacheObj);
+                } else {
+                    break;
+                }*/
+
+            if (sender.dispach(task)) {
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-            }else{
+            } else {
+                taskQueueManager.pushBack(taskCacheObj);
                 return ConsumeConcurrentlyStatus.RECONSUME_LATER;
             }
 
@@ -75,6 +83,21 @@ public class ResourceConsumer {
         consumer.start();
         logger.info("Resource Consumer Started.");
         return this;
+    }
+
+    private TaskCacheBean getTaskCacheBean(ResourceBean resource) {
+        String channel = weightManager.getChannel(resource.getTypeCode());
+        TaskCacheBean taskCacheObj = this.taskQueueManager.popOrderedTask(channel);
+        if (taskCacheObj == null) {
+            List<String> channels = weightManager.getReflectChannelList(resource.getTypeCode());
+            for (String channelId : channels) {
+                taskCacheObj = this.taskQueueManager.popOrderedTask(channelId);
+                if (taskCacheObj != null) {
+                    break;
+                }
+            }
+        }
+        return taskCacheObj;
     }
 
 
