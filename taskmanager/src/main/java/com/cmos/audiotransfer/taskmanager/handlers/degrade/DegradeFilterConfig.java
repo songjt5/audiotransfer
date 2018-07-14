@@ -15,7 +15,7 @@ import java.util.Map;
  * Time: 下午2:24
  * Description:
  */
-@Component @ConfigurationProperties(prefix = "degradeFilters") public class DegradeFilterConfig {
+@Component @ConfigurationProperties(prefix = "degrade-filters") public class DegradeFilterConfig {
 
     private Logger logger = LoggerFactory.getLogger(DegradeFilterConfig.class);
 

@@ -1,4 +1,4 @@
-degradeFilters:
+degrade-filters:
   filterList:
     - channelId: 1
       timeUnit: day

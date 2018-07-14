@@ -1,0 +1,6 @@
+server:
+  port: 9089
+spring:
+  rocketmq:
+    nameserver: 192.168.92.24:9876
+    producer-group-name: group-result
