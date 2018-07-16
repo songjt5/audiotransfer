@@ -6,13 +6,13 @@ package com.cmos.audiotransfer.common.bean;
  * Time: 下午5:54
  * Description:
  */
-public class TaskCacheBean {
+public class CachedTask {
 
     String taskStr;
 
     String redisQueueKey;
 
-    public TaskCacheBean(String taskStr, String redisQueueKey) {
+    public CachedTask(String taskStr, String redisQueueKey) {
         this.taskStr = taskStr;
         this.redisQueueKey = redisQueueKey;
     }

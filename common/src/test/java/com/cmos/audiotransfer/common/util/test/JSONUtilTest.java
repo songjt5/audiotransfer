@@ -1,6 +1,6 @@
 package com.cmos.audiotransfer.common.util.test;
 
-import com.cmos.audiotransfer.common.bean.ResourceBean;
+import com.cmos.audiotransfer.common.bean.TransformResource;
 import com.cmos.audiotransfer.common.exception.Task;
 import com.cmos.audiotransfer.common.util.JSONUtil;
 import org.junit.Test;
@@ -15,7 +15,7 @@ public class JSONUtilTest {
         task.setChannelId("sdnoif");
         task.setPath("/ss/wqe/sadsa/asd");
         System.out.println(JSONUtil.toJSON(task));*/
-        ResourceBean resource = new ResourceBean();
+        TransformResource resource = new TransformResource();
         resource.setTypeName("河南");
         resource.setInnerCode(1);
         resource.setTypeCode("1");

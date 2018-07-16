@@ -1,10 +1,8 @@
 package com.cmos.audiotransfer.taskmanager.handlers;
 
-import com.cmos.audiotransfer.common.bean.ResourceBean;
+import com.cmos.audiotransfer.common.bean.TransformResource;
 import com.cmos.audiotransfer.common.bean.TaskBean;
-import com.cmos.audiotransfer.common.bean.TaskCacheBean;
-import com.cmos.audiotransfer.common.constant.ConfigConsts;
-import com.cmos.audiotransfer.common.constant.TaskPriority;
+import com.cmos.audiotransfer.common.bean.CachedTask;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
 import com.cmos.audiotransfer.common.util.JSONUtil;
 import com.cmos.audiotransfer.taskmanager.handlers.degrade.TaskDegradeManager;
@@ -53,31 +51,24 @@ public class ResourceConsumer {
         //consumer.setConsumeTimestamp("20170422221800");
         consumer.registerMessageListener((MessageListenerConcurrently) (msgs, context) -> {
             String resourceStr = new String(msgs.get(0).getBody());
-            ResourceBean resource = JSONUtil.fromJson(resourceStr, ResourceBean.class);
+            TransformResource resource = JSONUtil.fromJson(resourceStr, TransformResource.class);
             if (resource == null) {
                 logger.error("illegal resource string!", resourceStr);
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
-            TaskCacheBean taskCacheObj = getTaskCacheBean(resource);
+            CachedTask taskCacheObj = getTaskCacheBean(resource);
             if (taskCacheObj == null) {
-                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+                sender.resumeWithNoTask(resource);
+                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
             TaskBean task = JSONUtil.fromJson(taskCacheObj.getTaskStr(), TaskBean.class);
-                /*if (degradeManager.checkDegrade(task)) {
-                    taskCacheObj.setRedisQueueKey(
-                        new StringBuilder(ConfigConsts.TASK_QUEUE_KEY_PREFIX)
-                            .append(task.getChannelId()).append("_")
-                            .append(TaskPriority.ZERO.getValue()).toString());
-                    taskQueueManager.pushBack(taskCacheObj);
-                } else {
-                    break;
-                }*/
-
-            if (sender.dispach(task)) {
-                return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
-            } else {
+            task.setResourceId(resource.getResourceId());
+            task.setLastRecoverTime(resource.getLastRecoverTime());
+            if (!sender.dispach(task)) {
                 taskQueueManager.pushBack(taskCacheObj);
-                return ConsumeConcurrentlyStatus.RECONSUME_LATER;
+                sender.resumeWithTask(task);
             }
+            return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 
         });
         consumer.start();
@@ -85,9 +76,9 @@ public class ResourceConsumer {
         return this;
     }
 
-    private TaskCacheBean getTaskCacheBean(ResourceBean resource) {
+    private CachedTask getTaskCacheBean(TransformResource resource) {
         String channel = weightManager.getChannel(resource.getTypeCode());
-        TaskCacheBean taskCacheObj = this.taskQueueManager.popOrderedTask(channel);
+        CachedTask taskCacheObj = this.taskQueueManager.popOrderedTask(channel);
         if (taskCacheObj == null) {
             List<String> channels = weightManager.getReflectChannelList(resource.getTypeCode());
             for (String channelId : channels) {

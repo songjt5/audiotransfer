@@ -22,7 +22,7 @@ public class TaskBean {
     @Expose private Date endTime;
     /*分组完成时间(分组状态)*/
     @Expose private Date groupTime;
-    /*分发完成时间(分组状态)*/
+    /*分发完成时间(分发状态)*/
     @Expose private Date dispacheTime;
     /*转写开始时间(转写状态)*/
     @Expose private Date transferBeginTime;
@@ -42,6 +42,11 @@ public class TaskBean {
     @Expose private String xmlResult;
     /*json转写结果地址(转写状态)*/
     @Expose private String jsonResult;
+    /*该任务分配的资源ID(分发状态,资源编码_资源编号)*/
+    @Expose private String resourceId;
+    /*该资源上次回收时间(资源上次回收时间yyyyMMddHHmmssSSS)*/
+    @Expose private String lastRecoverTime;
+
 
     public TaskBean() {
 
@@ -182,6 +187,22 @@ public class TaskBean {
 
     public void setJsonResult(String jsonResult) {
         this.jsonResult = jsonResult;
+    }
+
+    public String getResourceId() {
+        return resourceId;
+    }
+
+    public void setResourceId(String resourceId) {
+        this.resourceId = resourceId;
+    }
+
+    public String getLastRecoverTime() {
+        return lastRecoverTime;
+    }
+
+    public void setLastRecoverTime(String lastRecoverTime) {
+        this.lastRecoverTime = lastRecoverTime;
     }
 
     public static TaskBean createTaskBean(Map<String, String> taskInfo) {

@@ -11,5 +11,6 @@ public class MQTagConsts {
     public static final String TAG_MESSAGE_GROUPFAILED = "groupFailed";
     public static final String TAG_TASK_DISPACHED = "dispached";
     public static final String TAG_TASK_DISPACHFAILED = "dispachfailed";
+    public static final String TAG_RESOURCE_NO_TASK = "noTask";
 
 }

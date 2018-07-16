@@ -1,6 +1,7 @@
 package com.cmos.audiotransfer.taskmanager.handlers;
 
 import com.cmos.audiotransfer.common.bean.TaskBean;
+import com.cmos.audiotransfer.common.bean.TransformResource;
 import com.cmos.audiotransfer.common.constant.MQTagConsts;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
 import com.cmos.audiotransfer.common.util.JSONUtil;
@@ -39,19 +40,30 @@ public class DispachStatusProducer {
     }
 
     public boolean send(Message msg) {
-        SendResult sendResult = null;
         try {
-            sendResult = producer.send(msg);
-        } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
-            logger.error("task sent msg send failed!", e);
-            return false;
-        }
-        if (sendResult.getSendStatus().equals(SendStatus.SEND_OK))
+            producer.send(msg);
             return true;
-        else {
-            logger.error("task sent msg send failed!", new String(msg.getBody()));
+        } catch (MQClientException | RemotingException | MQBrokerException | InterruptedException e) {
+            logger.error(
+                new StringBuilder((new String(msg.getBody()))).append("task sent msg send failed!")
+                    .toString(), e);
             return false;
         }
+
+    }
+
+    public boolean resumeWithTask(TaskBean task) {
+
+        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, MQTagConsts.TAG_TASK_DISPACHFAILED,
+            JSONUtil.toJSON(task).getBytes());
+        return send(msg);
+    }
+
+    public boolean resumeWithNoTask(TransformResource resource) {
+
+        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, MQTagConsts.TAG_RESOURCE_NO_TASK,
+            JSONUtil.toJSON(resource).getBytes());
+        return send(msg);
     }
 
 }
