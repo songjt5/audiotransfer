@@ -8,8 +8,6 @@ import com.cmos.audiotransfer.common.util.JSONUtil;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.MQProducer;
-import org.apache.rocketmq.client.producer.SendResult;
-import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 import org.slf4j.Logger;
@@ -17,11 +15,11 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 
-public class DispachStatusProducer {
+public class DispatchStatusProducer {
 
     private MQProducer producer;
 
-    private Logger logger = LoggerFactory.getLogger(DispachStatusProducer.class);
+    private Logger logger = LoggerFactory.getLogger(DispatchStatusProducer.class);
 
     public MQProducer getProducer() {
         return producer;
@@ -31,10 +29,10 @@ public class DispachStatusProducer {
         this.producer = producer;
     }
 
-    public boolean dispach(TaskBean task) {
+    public boolean dispatch(TaskBean task) {
 
-        task.setDispacheTime(new Date());
-        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, MQTagConsts.TAG_TASK_DISPACHED,
+        task.setDispatchTime(new Date());
+        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, MQTagConsts.TAG_TASK_DISPATCHED,
             JSONUtil.toJSON(task).getBytes());
         return send(msg);
     }
@@ -54,8 +52,9 @@ public class DispachStatusProducer {
 
     public boolean resumeWithTask(TaskBean task) {
 
-        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, MQTagConsts.TAG_TASK_DISPACHFAILED,
-            JSONUtil.toJSON(task).getBytes());
+        Message msg =
+            new Message(TopicConsts.TOPIC_TASK_STATUS, MQTagConsts.TAG_TASK_DISPATCHFAILED,
+                JSONUtil.toJSON(task).getBytes());
         return send(msg);
     }
 

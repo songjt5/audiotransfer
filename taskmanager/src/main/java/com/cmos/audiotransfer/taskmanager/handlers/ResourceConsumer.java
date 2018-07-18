@@ -3,6 +3,7 @@ package com.cmos.audiotransfer.taskmanager.handlers;
 import com.cmos.audiotransfer.common.bean.TransformResource;
 import com.cmos.audiotransfer.common.bean.TaskBean;
 import com.cmos.audiotransfer.common.bean.CachedTask;
+import com.cmos.audiotransfer.common.constant.MQGroupConsts;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
 import com.cmos.audiotransfer.common.util.JSONUtil;
 import com.cmos.audiotransfer.taskmanager.handlers.degrade.TaskDegradeManager;
@@ -27,25 +28,23 @@ public class ResourceConsumer {
 
     private TaskQueueManager taskQueueManager;
 
-    private DispachStatusProducer sender;
+    private DispatchStatusProducer sender;
 
-    private TaskDegradeManager degradeManager;
 
     public ResourceConsumer() {
 
     }
 
     public ResourceConsumer(WeightManager weightManager, TaskQueueManager taskQueueManager,
-        DispachStatusProducer sender, TaskDegradeManager degradeManager) {
+        DispatchStatusProducer sender) {
         this.weightManager = weightManager;
         this.taskQueueManager = taskQueueManager;
         this.sender = sender;
-        this.degradeManager = degradeManager;
     }
 
     public ResourceConsumer init() throws MQClientException {
         DefaultMQPushConsumer consumer =
-            new DefaultMQPushConsumer(TopicConsts.TOPIC_TRANSFER_RESOURCE);
+            new DefaultMQPushConsumer(MQGroupConsts.GROUP_CONSUMER_RESOURCE);
         consumer.subscribe(TopicConsts.TOPIC_TRANSFER_RESOURCE, "*");
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         //consumer.setConsumeTimestamp("20170422221800");
@@ -64,7 +63,7 @@ public class ResourceConsumer {
             TaskBean task = JSONUtil.fromJson(taskCacheObj.getTaskStr(), TaskBean.class);
             task.setResourceId(resource.getResourceId());
             task.setLastRecoverTime(resource.getLastRecoverTime());
-            if (!sender.dispach(task)) {
+            if (!sender.dispatch(task)) {
                 taskQueueManager.pushBack(taskCacheObj);
                 sender.resumeWithTask(task);
             }

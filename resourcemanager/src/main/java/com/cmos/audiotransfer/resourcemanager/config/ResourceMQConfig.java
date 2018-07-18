@@ -1,6 +1,7 @@
 package com.cmos.audiotransfer.resourcemanager.config;
 
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
+import com.cmos.audiotransfer.common.constant.MQGroupConsts;
 import com.cmos.audiotransfer.resourcemanager.handler.ResourceProducer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -22,7 +23,8 @@ import org.springframework.context.annotation.Configuration;
     @Value("${spring.rocketmq.nameserver}") private String nameServer;
 
     @Bean ResourceProducer resourceProducer() {
-        DefaultMQProducer producer = new DefaultMQProducer(ConfigConsts.TASK_STATUS_PRODUCER_GROUP);
+        DefaultMQProducer producer =
+            new DefaultMQProducer(MQGroupConsts.GROUP_PRODUCER_RESOURCE_FRESH);
         producer.setNamesrvAddr(nameServer);
         ResourceProducer resourceProducer = new ResourceProducer();
         resourceProducer.setProducer(producer);

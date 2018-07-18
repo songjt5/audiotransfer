@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskmanager.beans;
 
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
-import com.cmos.audiotransfer.taskmanager.constant.DispachConfigConsts;
+import com.cmos.audiotransfer.taskmanager.constant.DispatchConfigConsts;
 
 import java.util.Map;
 
@@ -49,11 +49,11 @@ public class ChannelWeightBean {
 
     public ChannelWeightBean(Map<String, String> beanInfo) {
         this.channelId = beanInfo.get(ConfigConsts.TASK_CHANNELID).trim();
-        if (!beanInfo.containsKey(DispachConfigConsts.DISPACH_CHANNEL_WEIGHT)) {
+        if (!beanInfo.containsKey(DispatchConfigConsts.DISPATCH_CHANNEL_WEIGHT)) {
             this.weight = 5;
         } else {
             this.weight =
-                Integer.parseInt(beanInfo.get(DispachConfigConsts.DISPACH_CHANNEL_WEIGHT));
+                Integer.parseInt(beanInfo.get(DispatchConfigConsts.DISPATCH_CHANNEL_WEIGHT));
         }
         this.resourceCode = beanInfo.get(ConfigConsts.TASK_RESOURCE_CODE).trim();
     }

@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskmanager.config;
 
 import com.cmos.audiotransfer.taskmanager.handlers.ResourceConsumer;
-import com.cmos.audiotransfer.taskmanager.handlers.DispachStatusProducer;
+import com.cmos.audiotransfer.taskmanager.handlers.DispatchStatusProducer;
 import com.cmos.audiotransfer.taskmanager.handlers.TaskQueueManager;
 import com.cmos.audiotransfer.taskmanager.handlers.degrade.TaskDegradeManager;
 import com.cmos.audiotransfer.taskmanager.weights.WeightConfigs;
@@ -46,9 +46,9 @@ import java.net.URISyntaxException;
 
     @Bean
     public ResourceConsumer resourceConsumer(WeightManager weightManager, TaskQueueManager locator,
-        DispachStatusProducer dispachStatusProducer, TaskDegradeManager taskDegradeManager) {
+        DispatchStatusProducer dispatchStatusProducer) {
         ResourceConsumer resourceConsumer =
-            new ResourceConsumer(weightManager, locator, dispachStatusProducer, taskDegradeManager);
+            new ResourceConsumer(weightManager, locator, dispatchStatusProducer);
         try {
             resourceConsumer.init();
         } catch (MQClientException e) {

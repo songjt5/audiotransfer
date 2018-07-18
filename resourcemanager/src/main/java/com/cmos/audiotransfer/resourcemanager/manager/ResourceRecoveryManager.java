@@ -2,6 +2,7 @@ package com.cmos.audiotransfer.resourcemanager.manager;
 
 import com.cmos.audiotransfer.common.bean.TaskBean;
 import com.cmos.audiotransfer.common.bean.TransformResource;
+import com.cmos.audiotransfer.common.constant.MQGroupConsts;
 import com.cmos.audiotransfer.common.constant.MQTagConsts;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
 import com.cmos.audiotransfer.common.util.JSONUtil;
@@ -28,10 +29,11 @@ public class ResourceRecoveryManager {
     private ResourceCapacityManager resourceCapacityManager;
 
     public void init() throws MQClientException {
-        DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(TopicConsts.TOPIC_TASK_STATUS);
+        DefaultMQPushConsumer consumer =
+            new DefaultMQPushConsumer(MQGroupConsts.GROUP_CONSUMER_RESULT_RELEASE);
         consumer.subscribe(TopicConsts.TOPIC_TASK_STATUS,
             new StringBuilder(MQTagConsts.TAG_RESOURCE_NO_TASK).append(" || ")
-                .append(MQTagConsts.TAG_TASK_DISPACHFAILED).append(" || ")
+                .append(MQTagConsts.TAG_TASK_DISPATCHFAILED).append(" || ")
                 .append(MQTagConsts.TAG_TRANSFORM_FAILED).append(" || ")
                 .append(MQTagConsts.TAG_TRANSFORMED).toString());
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);

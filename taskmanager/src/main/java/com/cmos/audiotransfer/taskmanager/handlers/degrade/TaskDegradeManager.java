@@ -3,7 +3,7 @@ package com.cmos.audiotransfer.taskmanager.handlers.degrade;
 import com.cmos.audiotransfer.common.bean.TaskBean;
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
 import com.cmos.audiotransfer.taskmanager.config.DegradeFilterConfig;
-import com.cmos.audiotransfer.taskmanager.constant.DispachConfigConsts;
+import com.cmos.audiotransfer.taskmanager.constant.DispatchConfigConsts;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,13 +28,13 @@ public class TaskDegradeManager {
         for (Map<String, String> config : filterConfig.getFilterList()) {
 
             String channelId = config.get(ConfigConsts.TASK_CHANNELID);
-            String timeUnit = config.get(DispachConfigConsts.DISPACH_DEGRADE_FILTER_TIMEUNIT);
+            String timeUnit = config.get(DispatchConfigConsts.DISPATCH_DEGRADE_FILTER_TIMEUNIT);
             if (StringUtils.isEmpty(channelId) || StringUtils.isEmpty(timeUnit)) {
                 logger.error("filter config is illegal:" + config.toString());
             }
 
             degradeFilters.put(channelId, new DegradeFilter(timeUnit
-                .equalsIgnoreCase(DispachConfigConsts.DISPACH_DEGRADE_FILTER_TIMEUNIT_HOUR) ?
+                .equalsIgnoreCase(DispatchConfigConsts.DISPATCH_DEGRADE_FILTER_TIMEUNIT_HOUR) ?
                 Calendar.HOUR_OF_DAY :
                 Calendar.DAY_OF_YEAR));
         }

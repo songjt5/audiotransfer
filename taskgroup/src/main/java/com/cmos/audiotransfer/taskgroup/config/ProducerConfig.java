@@ -1,6 +1,7 @@
 package com.cmos.audiotransfer.taskgroup.config;
 
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
+import com.cmos.audiotransfer.common.constant.MQGroupConsts;
 import com.cmos.audiotransfer.common.util.LocalHostInfo;
 import com.cmos.audiotransfer.taskgroup.handler.StatusProducer;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -17,7 +18,8 @@ import org.springframework.context.annotation.Configuration;
     @Value("${spring.rocketmq.nameserver}") private String nameServer;
 
     @Bean StatusProducer statusProducer(LocalHostInfo hostInfo) {
-        DefaultMQProducer producer = new DefaultMQProducer(ConfigConsts.TASK_STATUS_PRODUCER_GROUP);
+        DefaultMQProducer producer =
+            new DefaultMQProducer(MQGroupConsts.GROUP_PRODUCER_STATUS_GROUP);
         producer.setNamesrvAddr(nameServer);
         StatusProducer statProducer = new StatusProducer();
         statProducer.setProducer(producer);

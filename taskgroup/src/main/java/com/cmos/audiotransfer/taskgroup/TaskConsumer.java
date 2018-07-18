@@ -30,7 +30,7 @@ public class TaskConsumer {
         this.statusProducer = statusProducer;
     }
 
-    @KafkaListener(topics = "task") public void processMessage(String content) {
+    @KafkaListener(topics = "consumer_task_origin") public void processMessage(String content) {
         Map<String, String> taskInfo = JSONUtil.toMap(content);
         TaskBean task;
         if (taskInfo == null || CollectionUtils.isEmpty(taskInfo)) {
