@@ -3,7 +3,6 @@ package com.cmos.audiotransfer.taskmanager.config;
 import com.cmos.audiotransfer.taskmanager.handlers.ResourceConsumer;
 import com.cmos.audiotransfer.taskmanager.handlers.DispachStatusProducer;
 import com.cmos.audiotransfer.taskmanager.handlers.TaskQueueManager;
-import com.cmos.audiotransfer.taskmanager.handlers.degrade.DegradeFilterConfig;
 import com.cmos.audiotransfer.taskmanager.handlers.degrade.TaskDegradeManager;
 import com.cmos.audiotransfer.taskmanager.weights.WeightConfigs;
 import com.cmos.audiotransfer.taskmanager.weights.WeightManager;

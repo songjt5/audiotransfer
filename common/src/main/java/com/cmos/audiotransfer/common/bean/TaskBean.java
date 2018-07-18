@@ -44,7 +44,7 @@ public class TaskBean {
     @Expose private String jsonResult;
     /*该任务分配的资源ID(分发状态,资源编码_资源编号)*/
     @Expose private String resourceId;
-    /*该资源上次回收时间(资源上次回收时间yyyyMMddHHmmssSSS)*/
+    /*该资源上次回收时间(资源上次回收时间戳)*/
     @Expose private String lastRecoverTime;
 
 

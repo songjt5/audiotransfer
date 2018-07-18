@@ -1,6 +1,5 @@
-package com.cmos.audiotransfer.taskmanager.handlers.degrade;
+package com.cmos.audiotransfer.taskmanager.config;
 
-import com.cmos.audiotransfer.taskmanager.weights.WeightConfigs;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.context.properties.ConfigurationProperties;

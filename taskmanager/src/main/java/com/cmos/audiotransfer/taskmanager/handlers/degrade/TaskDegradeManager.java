@@ -2,6 +2,7 @@ package com.cmos.audiotransfer.taskmanager.handlers.degrade;
 
 import com.cmos.audiotransfer.common.bean.TaskBean;
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
+import com.cmos.audiotransfer.taskmanager.config.DegradeFilterConfig;
 import com.cmos.audiotransfer.taskmanager.constant.DispachConfigConsts;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

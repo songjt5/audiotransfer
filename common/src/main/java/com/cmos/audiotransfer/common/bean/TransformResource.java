@@ -16,7 +16,7 @@ public class TransformResource {
 
     //转写资源内部编号
     @Expose Integer innerCode;
-    /*资源的上次回收时间*/
+    /*资源的上次回收时间戳*/
     @Expose String lastRecoverTime;
 
     public String getTypeName() {
