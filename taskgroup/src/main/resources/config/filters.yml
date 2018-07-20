@@ -1,14 +1,21 @@
-filters:
+configs:
   filterList:
-    - channelId: 1
+    - id: 1
+      channelId: 1
       key: number
       type: number
       priority: 3
       value: 50
-    - channelId: 1
+    - id: 2
+      channelId: 1
       key: number
       type: number
       priority: 3
       from: 50
       to: 100
       intervalType: 3
+  channels:
+    1: 河南
+    2: 河北
+    3: 北京
+    4: 湖北

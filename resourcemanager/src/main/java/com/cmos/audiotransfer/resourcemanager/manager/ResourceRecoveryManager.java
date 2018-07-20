@@ -45,6 +45,14 @@ public class ResourceRecoveryManager {
             TransformResource resource;
             if (tag.equals(MQTagConsts.TAG_RESOURCE_NO_TASK)) {
                 resource = JSONUtil.fromJson(dataStr, TransformResource.class);
+                if (resource.getByeTime() == null) {
+                    resource.setByeTime(1);
+                } else {
+                    int byeTime = resource.getByeTime();
+                    if (byeTime < 14) {
+                        resource.setByeTime(resource.getByeTime() + 1);
+                    }
+                }
             } else {
                 TaskBean task = JSONUtil.fromJson(dataStr, TaskBean.class);
                 TransformResource newResource = new TransformResource();

@@ -6,6 +6,7 @@ import com.cmos.audiotransfer.taskgroup.filters.FilterFactory;
 import com.cmos.audiotransfer.taskgroup.filters.FilterManager;
 import com.cmos.audiotransfer.taskgroup.handler.StatusProducer;
 import com.cmos.audiotransfer.taskgroup.handler.TaskHandler;
+import com.cmos.audiotransfer.taskgroup.manager.ChannelManager;
 import com.cmos.audiotransfer.taskgroup.manager.TaskCacheManager;
 import com.cmos.audiotransfer.taskgroup.util.RedisOperator;
 import org.slf4j.Logger;
@@ -60,8 +61,8 @@ import java.net.URISyntaxException;
     }
 
     @Bean TaskConsumer kafkaConsumerConfig(FilterManager filterManager, RedisOperator redisOperator,
-        StatusProducer statusProducer) {
-        return new TaskConsumer(filterManager, redisOperator, statusProducer);
+        StatusProducer statusProducer, ChannelManager channelManager) {
+        return new TaskConsumer(filterManager, redisOperator, statusProducer, channelManager);
     }
 
     @Bean TaskHandler taskHandler(FilterManager filter) {

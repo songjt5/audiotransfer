@@ -10,4 +10,6 @@ public interface RedisLock extends AutoCloseable {
     public boolean lock() throws InterruptedException;
 
     public void unlock();
+
+    public boolean locked();
 }

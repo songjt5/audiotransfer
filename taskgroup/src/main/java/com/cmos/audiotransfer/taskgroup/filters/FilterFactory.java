@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.taskgroup.filters;
 
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
-import com.cmos.audiotransfer.common.util.DateUtil;
+import com.cmos.audiotransfer.common.util.DateUtils;
 import com.cmos.audiotransfer.taskgroup.constant.FilterConfigConsts;
 import com.cmos.audiotransfer.taskgroup.filters.number.EqualFilter;
 import com.cmos.audiotransfer.taskgroup.filters.number.IntervalFilter;
@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 
 @Component public class FilterFactory {
 
-    private Logger logger = LoggerFactory.getLogger(FilterFactory.class);
+    private static final Logger logger = LoggerFactory.getLogger(FilterFactory.class);
 
     public Map<String, List<Filter>> getFilters(FilterFactory filterFactory,
         FilterConfigs filterConfig) {
@@ -173,6 +173,12 @@ import java.util.stream.Collectors;
 
     private boolean initFilter(Filter filter, Map<String, String> filterInfo) {
 
+        String id = filterInfo.get(ConfigConsts.FILTER_ID);
+        if (StringUtils.isEmpty(id)) {
+            return false;
+        } else {
+            filter.setId(id);
+        }
         String channel = filterInfo.get(ConfigConsts.TASK_CHANNELID);
         if (StringUtils.isEmpty(channel))
             return false;
@@ -273,7 +279,7 @@ import java.util.stream.Collectors;
     }
 
     private Long parseDateStr(String str) {
-        return DateUtil.strToTimeStamp(str);
+        return DateUtils.strToTimeStamp(str);
     }
 
 

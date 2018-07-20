@@ -5,9 +5,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
-@Component
-@ConfigurationProperties(prefix = "filters")
-public class FilterConfigs {
+
+@Component @ConfigurationProperties(prefix = "configs") public class FilterConfigs {
 
     /*filter配置信息*/
     private List<Map<String, String>> filterList;

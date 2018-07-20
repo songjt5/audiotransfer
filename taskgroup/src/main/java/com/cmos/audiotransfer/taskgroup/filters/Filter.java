@@ -6,6 +6,9 @@ import org.springframework.util.StringUtils;
 import java.util.Map;
 
 public abstract class Filter {
+
+    /*filterId*/
+    private String id;
     /*渠道号*/
     private String channel;
 
@@ -14,6 +17,14 @@ public abstract class Filter {
 
     /*优先级*/
     protected TaskPriority priortyValue;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getChannel() {
         return channel;

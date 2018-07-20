@@ -7,6 +7,7 @@ import com.cmos.audiotransfer.taskgroup.constant.GroupStatusConsts;
 import com.cmos.audiotransfer.taskgroup.filters.FilterManager;
 import com.cmos.audiotransfer.taskgroup.handler.StatusProducer;
 import com.cmos.audiotransfer.common.util.JSONUtil;
+import com.cmos.audiotransfer.taskgroup.manager.ChannelManager;
 import com.cmos.audiotransfer.taskgroup.util.RedisOperator;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -21,13 +22,15 @@ public class TaskConsumer {
     private FilterManager filterManager;
     private RedisOperator redisOperator;
     private StatusProducer statusProducer;
+    private ChannelManager channelManager;
 
 
     public TaskConsumer(FilterManager filterManager, RedisOperator redisOperator,
-        StatusProducer statusProducer) {
+        StatusProducer statusProducer, ChannelManager channelManager) {
         this.filterManager = filterManager;
         this.redisOperator = redisOperator;
         this.statusProducer = statusProducer;
+        this.channelManager = channelManager;
     }
 
     @KafkaListener(topics = "consumer_task_origin") public void processMessage(String content) {
@@ -39,11 +42,15 @@ public class TaskConsumer {
             task.setDetail("message parse failed:" + content);
             logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, content);
         } else {
-
             task = TaskBean.createTaskBean(taskInfo);
             if (StringUtils.isEmpty(task.getChannelId())) {
                 task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);
                 task.setDetail("channel id is null!" + content);
+                logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
+            } else if (channelManager
+                .invalidChannelId(taskInfo.get(ConfigConsts.TASK_CHANNELID_ORIGIN))) {
+                task.setStatus(GroupStatusConsts.TASK_STATUS_INVALIDCHANNELID);
+                task.setDetail("invalid channeld!" + content);
                 logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
             } else if (StringUtils.isEmpty(task.getId())) {
                 task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);
@@ -58,7 +65,6 @@ public class TaskConsumer {
                 task.setDetail("begin time is null!" + content);
                 logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
             } else if (task.getEndTime() == null) {
-
                 task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);
                 task.setDetail("end time is null!" + content);
                 logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);

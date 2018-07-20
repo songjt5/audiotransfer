@@ -19,6 +19,13 @@ public class TransformResource {
     /*资源的上次回收时间戳*/
     @Expose String lastRecoverTime;
 
+    /*资源的轮空次数*/
+    @Expose Integer byeTime;
+
+    public String getResourceId() {
+        return new StringBuilder(typeCode).append("_").append(innerCode).toString();
+    }
+
     public String getTypeName() {
         return typeName;
     }
@@ -51,7 +58,13 @@ public class TransformResource {
         this.lastRecoverTime = lastRecoverTime;
     }
 
-    public String getResourceId() {
-        return new StringBuilder(typeCode).append("_").append(innerCode).toString();
+    public Integer getByeTime() {
+        return byeTime;
     }
+
+    public void setByeTime(Integer byeTime) {
+        this.byeTime = byeTime;
+    }
+
+
 }

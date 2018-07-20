@@ -1,7 +1,7 @@
 package com.cmos.audiotransfer.common.bean;
 
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
-import com.cmos.audiotransfer.common.util.DateUtil;
+import com.cmos.audiotransfer.common.util.DateUtils;
 import com.google.gson.annotations.Expose;
 
 import java.util.Date;
@@ -25,9 +25,9 @@ public class TaskBean {
     /*分发完成时间(分发状态)*/
     @Expose private Date dispatchTime;
     /*转写开始时间(转写状态)*/
-    @Expose private Date transferBeginTime;
+    @Expose private Date transformBeginTime;
     /*转写结束时间(转写状态)*/
-    @Expose private Date transferEndTime;
+    @Expose private Date transformEndTime;
     //任务执行的失败次数(所有)
     @Expose private Integer failCount;
     /*语音地址*/
@@ -56,8 +56,8 @@ public class TaskBean {
     public TaskBean(Map<String, String> taskInfo) {
         this.id = taskInfo.get(ConfigConsts.TASK_ID_ORIGIN);
         this.channelId = taskInfo.get(ConfigConsts.TASK_CHANNELID_ORIGIN);
-        this.beginTime = DateUtil.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_BEGIN_ORIGIN));
-        this.endTime = DateUtil.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_END_ORIGIN));
+        this.beginTime = DateUtils.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_BEGIN_ORIGIN));
+        this.endTime = DateUtils.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_END_ORIGIN));
         this.path = taskInfo.get(ConfigConsts.TASK_RADIO_PATH_ORIGIN);
     }
 
@@ -117,20 +117,20 @@ public class TaskBean {
         this.dispatchTime = dispatchTime;
     }
 
-    public Date getTransferBeginTime() {
-        return transferBeginTime;
+    public Date getTransformBeginTime() {
+        return transformBeginTime;
     }
 
-    public void setTransferBeginTime(Date transferBeginTime) {
-        this.transferBeginTime = transferBeginTime;
+    public void setTransformBeginTime(Date transformBeginTime) {
+        this.transformBeginTime = transformBeginTime;
     }
 
-    public Date getTransferEndTime() {
-        return transferEndTime;
+    public Date getTransformEndTime() {
+        return transformEndTime;
     }
 
-    public void setTransferEndTime(Date transferEndTime) {
-        this.transferEndTime = transferEndTime;
+    public void setTransformEndTime(Date transformEndTime) {
+        this.transformEndTime = transformEndTime;
     }
 
     public Integer getFailCount() {
@@ -212,8 +212,8 @@ public class TaskBean {
 
         task.setChannelId(taskInfo.get(ConfigConsts.TASK_CHANNELID_ORIGIN));
 
-        task.beginTime = DateUtil.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_BEGIN_ORIGIN));
-        task.endTime = DateUtil.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_END_ORIGIN));
+        task.beginTime = DateUtils.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_BEGIN_ORIGIN));
+        task.endTime = DateUtils.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_END_ORIGIN));
 
         task.setPath(taskInfo.get(ConfigConsts.TASK_RADIO_PATH_ORIGIN));
         return task;

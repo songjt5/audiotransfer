@@ -19,9 +19,9 @@ public class ConfigConsts {
     public static final String TASK_TIME_BEGIN = "beginTime";
     public static final String TASK_TIME_END = "endTime";
     public static final String TASK_RESOURCE_CODE = "resourceType";
-    public static final String TASK_STATUS_PRODUCER_GROUP = "statusProducer";
     public static final String TASK_QUEUE_KEY_PREFIX = "task_";
     public static final String RESOURCE_FRESH_INDEXES_KEY = "fresh_indexes";
+    public static final String FILTER_ID = "id";
 
 
 

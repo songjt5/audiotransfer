@@ -5,6 +5,7 @@ import com.cmos.audiotransfer.common.bean.TransformResource;
 import com.cmos.audiotransfer.common.constant.MQTagConsts;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
 import com.cmos.audiotransfer.common.util.JSONUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.MQProducer;
@@ -33,6 +34,9 @@ public class ResourceProducer {
 
         Message msg =
             new Message(TopicConsts.TOPIC_TRANSFER_RESOURCE, JSONUtil.toJSON(resource).getBytes());
+        if (resource.getByeTime() != null) {
+            msg.setDelayTimeLevel(resource.getByeTime());
+        }
         return send(msg);
     }
 
@@ -51,8 +55,7 @@ public class ResourceProducer {
 
     public boolean resumeToStatusTopic(String dataSte, String tags) {
 
-        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, tags,
-            dataSte.getBytes());
+        Message msg = new Message(TopicConsts.TOPIC_TASK_STATUS, tags, dataSte.getBytes());
         return send(msg);
     }
 
