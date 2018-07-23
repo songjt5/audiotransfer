@@ -34,7 +34,7 @@ import java.util.Map;
     @Field("trans_b_t")
     @Expose private Date transformBeginTime;
     /*转写结束时间(转写状态)*/
-    @Field("trans_b_t")
+    @Field("trans_e_t")
     @Expose private Date transformEndTime;
     //任务执行的失败次数(所有)
     @Field("fail_count")
@@ -43,7 +43,7 @@ import java.util.Map;
     @Field("path")
     @Expose private String path;
     /*原始任务(分组状态)*/
-    @Field("t_oringin")
+    @Field("t_origin")
     @Expose private String content;
     /*任务状态(所有)*/
     @Field("stat")
