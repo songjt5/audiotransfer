@@ -50,7 +50,7 @@ public class TaskConsumer {
             } else if (channelManager
                 .invalidChannelId(taskInfo.get(ConfigConsts.TASK_CHANNELID_ORIGIN))) {
                 task.setStatus(GroupStatusConsts.TASK_STATUS_INVALIDCHANNELID);
-                task.setDetail("invalid channeld!" + content);
+                task.setDetail("invalid channelId!" + content);
                 logger.error(GroupStatusConsts.TASK_STATUS_GROUPFAILED, task);
             } else if (StringUtils.isEmpty(task.getId())) {
                 task.setStatus(GroupStatusConsts.TASK_STATUS_MISSKEY);

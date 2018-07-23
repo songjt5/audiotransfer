@@ -3,48 +3,65 @@ package com.cmos.audiotransfer.common.bean;
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
 import com.cmos.audiotransfer.common.util.DateUtils;
 import com.google.gson.annotations.Expose;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.Date;
 import java.util.Map;
 
 /*
  * 转写任务实体*/
-public class TaskBean {
+@Document(collection = "task_status") public class TaskBean {
     /*流水号*/
+    @Field("id")
     @Expose private String id;
     /*渠道号*/
+    @Field("channel")
     @Expose private String channelId;
-    /*能力编码(分发状态)*/
-    @Expose private String resourceCode;
     /*通话开始时间*/
+    @Field("start_t")
     @Expose private Date beginTime;
     /*通话结束时间*/
+    @Field("end_t")
     @Expose private Date endTime;
     /*分组完成时间(分组状态)*/
+    @Field("group_t")
     @Expose private Date groupTime;
     /*分发完成时间(分发状态)*/
+    @Field("disp_t")
     @Expose private Date dispatchTime;
     /*转写开始时间(转写状态)*/
+    @Field("trans_b_t")
     @Expose private Date transformBeginTime;
     /*转写结束时间(转写状态)*/
+    @Field("trans_b_t")
     @Expose private Date transformEndTime;
     //任务执行的失败次数(所有)
+    @Field("fail_count")
     @Expose private Integer failCount;
     /*语音地址*/
+    @Field("path")
     @Expose private String path;
     /*原始任务(分组状态)*/
+    @Field("t_oringin")
     @Expose private String content;
     /*任务状态(所有)*/
+    @Field("stat")
     @Expose private String status;
     /*错误详情(所有)*/
+    @Field("detail")
     @Expose private String detail;
     /*xml转写结果地址(转写状态)*/
+    @Field("xml")
     @Expose private String xmlResult;
     /*json转写结果地址(转写状态)*/
+    @Field("json")
     @Expose private String jsonResult;
     /*该任务分配的资源ID(分发状态,资源编码_资源编号)*/
+    @Field("resource")
     @Expose private String resourceId;
     /*该资源上次回收时间(资源上次回收时间戳)*/
+    @Field("recover_t")
     @Expose private String lastRecoverTime;
 
 
@@ -75,14 +92,6 @@ public class TaskBean {
 
     public void setChannelId(String channelId) {
         this.channelId = channelId;
-    }
-
-    public String getResourceCode() {
-        return resourceCode;
-    }
-
-    public void setResourceCode(String resourceCode) {
-        this.resourceCode = resourceCode;
     }
 
     public Date getBeginTime() {

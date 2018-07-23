@@ -14,7 +14,7 @@
         <module>resourcemanager</module>
         <module>resultmanager</module>
         <module>common</module>
-        <module>transformmanager</module>
+        <module>transfermanager</module>
     </modules>
     <properties>
         <!--add  maven release-->
