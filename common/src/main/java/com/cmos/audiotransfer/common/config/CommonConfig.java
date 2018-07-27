@@ -1,8 +1,10 @@
 package com.cmos.audiotransfer.common.config;
 
+import com.cmos.audiotransfer.common.util.ApplicationContextUtil;
 import com.cmos.audiotransfer.common.util.LocalHostInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -19,11 +21,19 @@ import java.net.UnknownHostException;
 
     @Bean public LocalHostInfo localHost() {
         try {
-            return new LocalHostInfo();
+            LocalHostInfo hostInfo = new LocalHostInfo();
+            hostInfo.init();
+            return hostInfo;
         } catch (UnknownHostException e) {
             logger.error("there is no host info!");
             System.exit(1);
             return null;
         }
+    }
+
+    @Bean public ApplicationContextUtil applicationContextUtil(ApplicationContext context) {
+        ApplicationContextUtil contextUtil = new ApplicationContextUtil();
+        contextUtil.setApplicationContext(context);
+        return contextUtil;
     }
 }

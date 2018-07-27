@@ -1,0 +1,9 @@
+server:
+  port: 9088
+spring:
+  redis:
+    host: localhost
+    port: 6379
+  rocketmq:
+    nameserver: 192.168.92.24:9876
+    producer-group-name: group-result

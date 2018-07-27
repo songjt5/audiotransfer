@@ -1,4 +1,4 @@
-package com.cmos.audiotransfer.taskgroup.exception;
+package com.cmos.audiotransfer.common.exception;
 
 public class NeedNecessaryInfoException extends RuntimeException {
 
