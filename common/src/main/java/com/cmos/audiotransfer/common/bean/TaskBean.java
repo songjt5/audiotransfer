@@ -63,6 +63,12 @@ import java.util.Map;
     /*该资源上次回收时间(资源上次回收时间戳)*/
     @Field("recover_t")
     @Expose private String lastRecoverTime;
+    /*语音目标转码格式*/
+    @Field("target_c")
+    @Expose private String targetCodeType;
+
+
+
 
 
     public TaskBean() {
@@ -212,6 +218,14 @@ import java.util.Map;
 
     public void setLastRecoverTime(String lastRecoverTime) {
         this.lastRecoverTime = lastRecoverTime;
+    }
+
+    public String getTargetCodeType() {
+        return targetCodeType;
+    }
+
+    public void setTargetCodeType(String targetCodeType) {
+        this.targetCodeType = targetCodeType;
     }
 
     public static TaskBean createTaskBean(Map<String, String> taskInfo) {

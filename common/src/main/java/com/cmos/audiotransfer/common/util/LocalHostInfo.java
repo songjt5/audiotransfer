@@ -13,39 +13,39 @@ import java.net.UnknownHostException;
  */
 public class LocalHostInfo {
 
-    String ipAddr;
+    public static String ipAddr;
 
-    String hostName;
+    public static String hostName;
 
-    String localInfo;
+    public static String localInfo;
 
-    public LocalHostInfo() throws UnknownHostException {
+    public void init() throws UnknownHostException {
         this.ipAddr = InetAddress.getLocalHost().getHostAddress();
         this.hostName = InetAddress.getLocalHost().getHostName();
         this.localInfo = new StringBuilder(hostName).append(":").append(hostName).toString();
     }
 
-    public String getIpAddr() {
+    public static String getIpAddr() {
         return ipAddr;
     }
 
-    public void setIpAddr(String ipAddr) {
-        this.ipAddr = ipAddr;
+    public static void setIpAddr(String ipAddr) {
+        LocalHostInfo.ipAddr = ipAddr;
     }
 
-    public String getHostName() {
+    public static String getHostName() {
         return hostName;
     }
 
-    public void setHostName(String hostName) {
-        this.hostName = hostName;
+    public static void setHostName(String hostName) {
+        LocalHostInfo.hostName = hostName;
     }
 
-    public String getLocalInfo() {
+    public static String getLocalInfo() {
         return localInfo;
     }
 
-    public void setLocalInfo(String localInfo) {
-        this.localInfo = localInfo;
+    public static void setLocalInfo(String localInfo) {
+        LocalHostInfo.localInfo = localInfo;
     }
 }
