@@ -1,0 +1,18 @@
+server:
+  port: 8093
+spring:
+  rocketmq:
+    nameserver: 192.168.92.24:9876
+    producer-group-name: group-result
+#  spring.data.mongodb.uri=mongodb://taskmanager:1111@192.168.92.24:27017/dbname
+  data:
+    mongodb:
+      uri: mongodb://taskmanager:1111@192.168.92.24:27017/radio_transfer
+#      host: 192.168.92.24
+#      port: 27017
+#      username: taskmanager
+#      password: 1111
+#      database: radio_transfer
+#      authentication-database: admin
+#      connections-per-host: 20
+#      min-connections-per-host: 20

@@ -3,8 +3,10 @@ package com.cmos.audiotransfer.common.bean;
 import com.cmos.audiotransfer.common.constant.ConfigConsts;
 import com.cmos.audiotransfer.common.util.DateUtils;
 import com.google.gson.annotations.Expose;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.Map;
@@ -12,6 +14,11 @@ import java.util.Map;
 /*
  * 转写任务实体*/
 @Document(collection = "task_status") public class TaskBean {
+    //songjt 创建索引
+    @Id
+    @Field("mes_id")
+    @Expose private String mesId;
+
     /*流水号*/
     @Field("id")
     @Expose private String id;
@@ -77,6 +84,15 @@ import java.util.Map;
         this.endTime = DateUtils.stringToDate(taskInfo.get(ConfigConsts.TASK_TIME_END_ORIGIN));
         this.path = taskInfo.get(ConfigConsts.TASK_RADIO_PATH_ORIGIN);
     }
+
+    public String getMesId() {
+        return mesId;
+    }
+
+    public void setMesId(String mesId) {
+        this.mesId = mesId;
+    }
+
 
     public String getId() {
         return id;
