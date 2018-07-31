@@ -1,14 +1,11 @@
 package com.cmos.audiotransfer.transfermanager.service;
 
-import com.cmos.audiotransfer.common.bean.CachedTask;
 import com.cmos.audiotransfer.common.bean.TaskBean;
-import com.cmos.audiotransfer.common.bean.TransformResource;
 import com.cmos.audiotransfer.common.constant.MQGroupConsts;
 import com.cmos.audiotransfer.common.constant.MQTagConsts;
 import com.cmos.audiotransfer.common.constant.TopicConsts;
 import com.cmos.audiotransfer.common.util.JSONUtil;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.consumer.MQConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -25,8 +22,7 @@ import org.slf4j.LoggerFactory;
 public class TransferTaskConsumer {
 
     Logger logger = LoggerFactory.getLogger(TransferTaskConsumer.class);
-    private MQConsumer consumer;
-    private TaskTrasnformManager TaskTrasnformManager;
+    private TaskTransformManager taskTransformManager;
 
 
     public TransferTaskConsumer init() throws MQClientException {
@@ -42,7 +38,7 @@ public class TransferTaskConsumer {
                 logger.error("illegal task string!", taskStr);
                 return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
             }
-
+            taskTransformManager.publicEvent(task);
 
             return ConsumeConcurrentlyStatus.CONSUME_SUCCESS;
 
@@ -50,5 +46,14 @@ public class TransferTaskConsumer {
         consumer.start();
         logger.info("Resource Consumer Started.");
         return this;
+    }
+
+    public com.cmos.audiotransfer.transfermanager.service.TaskTransformManager getTaskTransformManager() {
+        return taskTransformManager;
+    }
+
+    public void setTaskTransformManager(
+        com.cmos.audiotransfer.transfermanager.service.TaskTransformManager taskTransformManager) {
+        this.taskTransformManager = taskTransformManager;
     }
 }

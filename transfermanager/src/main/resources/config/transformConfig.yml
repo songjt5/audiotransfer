@@ -3,6 +3,7 @@ isa:
   searchParams: kws_gen_one_best=true,kws_search_ls=true,kws_ls_duration=3000,search_it=true,search_it_dur=100
   xmlOption: true
   maxEngine: 2
+  bucketPrefix:
   configs:
     #渠道编号(对应能力平台的地区编号)
     - resourceCode: xunfei
@@ -46,4 +47,20 @@ isa:
 #audio/voxware;rate=8000
 #audio/g.726
 #audio/g.729
-
+result-json:
+  insightType:
+  taskInsightField:
+  dataSource: zyzx
+  dataType:
+  DimensionType:
+  dimensionList:
+    - originalName:
+      indexName:
+      type:
+      index:
+      store:
+      analyzer:
+      defaultValue:
+      child:
+      task:
+      isRequired:

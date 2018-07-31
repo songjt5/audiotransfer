@@ -3,6 +3,9 @@ package com.cmos.audiotransfer.transfermanager.config;
 import com.cmos.audiotransfer.transfermanager.isa.ISAEngine;
 import com.cmos.audiotransfer.transfermanager.isa.IsaEnginePool;
 import com.cmos.audiotransfer.transfermanager.isa.IsaFactory;
+import com.cmos.audiotransfer.transfermanager.service.TaskTransformManager;
+import com.cmos.audiotransfer.transfermanager.service.TransferTaskConsumer;
+import org.apache.rocketmq.client.exception.MQClientException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
@@ -68,6 +71,25 @@ import java.util.concurrent.BlockingQueue;
         }
         configurer.setProperties(yaml.getObject());
         return configurer;
+    }
+
+    @Bean public TaskTransformManager taskTransformManager() {
+        TaskTransformManager taskTransformManager = new TaskTransformManager();
+        taskTransformManager.init();
+        return taskTransformManager;
+    }
+
+    @Bean
+    public TransferTaskConsumer TransferTaskConsumer(TaskTransformManager taskTransformManager) {
+        TransferTaskConsumer transferTaskConsumer = new TransferTaskConsumer();
+        transferTaskConsumer.setTaskTransformManager(taskTransformManager);
+        try {
+            transferTaskConsumer.init();
+        } catch (MQClientException e) {
+            logger.error("transferTaskConsumer init failed!", e);
+            System.exit(1);
+        }
+        return transferTaskConsumer;
     }
 
 }
