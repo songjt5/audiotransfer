@@ -9,6 +9,9 @@ public class DateUtils {
 
     private static final DateFormat dateParser = new SimpleDateFormat("yyyyMMddHHmmss");
 
+    private static final SimpleDateFormat jsonResultDateParser =
+        new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+
     public static String dateToString(Date date) {
         if (date == null)
             return null;
@@ -27,5 +30,11 @@ public class DateUtils {
     public static Long strToTimeStamp(String timeString) {
         Date date = stringToDate(timeString);
         return date == null ? null : date.getTime();
+    }
+
+    public static String dateToResultString(Date date) {
+        if (date == null)
+            return null;
+        return jsonResultDateParser.format(date);
     }
 }

@@ -31,6 +31,8 @@ import java.util.Map;
 
     private String appId;
 
+    private String bucketPrefix;
+
     private List<Map<String, String>> configs;
 
     private Map<String, String> isaParams = new HashMap<>();
@@ -61,6 +63,14 @@ import java.util.Map;
         }
     }
 
+
+    public String getBucketPrefix() {
+        return bucketPrefix;
+    }
+
+    public void setBucketPrefix(String bucketPrefix) {
+        this.bucketPrefix = bucketPrefix;
+    }
 
     public String getVoiceFormat(String resourceCode) {
         return voiceFormat.get(resourceCode);

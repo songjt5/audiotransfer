@@ -9,9 +9,16 @@ package com.cmos.audiotransfer.transfermanager.constant;
 public class TransformConsts {
     public static final String KEY_SYMBOL_EQUAL = "=";
     public static final String KEY_SYMBOL_COMMA = ",";
+    public static final String KEY_SYMBOL_UNDERLINE = "_";
+    public static final String KEY_SYMBOL_WAVELINE = "~";
+
+    public static final String SYMBOL_SUFFIX_TXT = ".txt";
+    public static final String SYMBOL_SUFFIX_XML = ".xml";
+
 
     public static final String KEY_BEANNAME_ISAENGINEPOOL = "isaEnginePool";
     public static final String KEY_BEANNAME_ISAENGINECONFIGS = "isaEngineConfigs";
+    public static final String KEY_BEANNAME_JSONRESULTCONFIGS = "jsonResultConfigs";
     public static final String KEY_BEANNAME_XMLRESULTPARSER = "xmlResultParser";
 
 
@@ -31,6 +38,7 @@ public class TransformConsts {
     public static final String KEY_ISA_PARAMS_ACOUS= "acous";
     public static final String KEY_ISA_PARAMS_EXTRABUNDLE= "small_wfst";
     public static final String KEY_ISA_PARAMS_HOTWORD= "hotword";
+    public static final String SYMBOL_BUCKET_NAME_RESULT= "zx";
 
     public static final String LOCAL_VOICE_PATH =
         TransformConsts.class.getResource("/").getPath() + "voice";
